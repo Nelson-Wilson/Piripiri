@@ -11,7 +11,15 @@ import { mapsHref } from "@/lib/site";
 export default function Gallery() {
   const [idx, setIdx] = useState<number | null>(null);
   const [all, setAll] = useState(false);
-  const strip = [1, 2, 3, 5]; // frango, prato, sala, frango (índices de data.gallery)
+  // faixa de destaque: camarão, frango, arroz de marisco, bife panado
+  const strip = [
+    "camarao-grelhado.jpg",
+    "frango-inteiro.jpg",
+    "arroz-marisco.jpg",
+    "bife-panado.jpg",
+  ]
+    .map((f) => gallery.findIndex((g) => g.src.endsWith(f)))
+    .filter((i) => i >= 0);
 
   const close = useCallback(() => setIdx(null), []);
   const next = useCallback(() => setIdx((i) => (i === null ? i : (i + 1) % gallery.length)), []);

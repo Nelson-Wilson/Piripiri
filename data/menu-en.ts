@@ -67,6 +67,23 @@ export const en: Record<string, string> = {
   "Cerveja gelada de pressão, servida no copo alto.": "Ice-cold draught beer served in a tall glass.",
   "Draft Beer": "Draft Beer",
   "Imperial bem gelada, para acompanhar o frango na brasa.": "Ice-cold draught, made for grilled chicken.",
+  // novos pratos (fotos novas)
+  "Bife Panado com Ovo": "Breaded Steak with Egg",
+  "Bife panado e estaladiço com ovo estrelado e batata frita dourada.":
+    "Crispy breaded steak topped with a fried egg, served with golden fries.",
+  "Caril de Frango": "Chicken Curry",
+  "Frango no molho de caril da casa, servido com arroz branco.":
+    "Chicken in our house curry sauce, served with white rice.",
+  "Arroz de Marisco": "Seafood Rice",
+  "Arroz cozinhado com camarão e marisco, finalizado com ervas frescas.":
+    "Rice cooked with prawns and seafood, finished with fresh herbs.",
+  Cocktails: "Cocktails",
+  "Cocktails frutados servidos bem frios ao balcão.": "Fruity cocktails served ice cold at the bar.",
+  "Piña Colada": "Piña Colada",
+  "Cremosa, gelada e decorada com ananás.": "Creamy, ice-cold and garnished with pineapple.",
+  Sangria: "Sangria",
+  "Sangria fresca com fruta, servida no copo e no jarro de barro.":
+    "Fresh fruit sangria, served by the glass and in a clay jug.",
   // selos / notas
   Inteiro: "Whole",
   Meio: "Half",

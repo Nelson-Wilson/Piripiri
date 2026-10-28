@@ -36,7 +36,7 @@ export default function MenuPage() {
                       <article key={d.name} className="overflow-hidden rounded-[10px] border border-gold-400/25 bg-ink-900">
                         {d.img && (
                           <div className="relative aspect-[4/3]">
-                            <Image src={d.img} alt={tr(lang, d.name)} fill sizes="(max-width:640px) 45vw, 220px" className="object-cover" />
+                            <Image src={d.img} alt={tr(lang, d.name)} fill sizes="(max-width:640px) 45vw, 220px" className="object-cover" style={{ objectPosition: d.pos }} />
                           </div>
                         )}
                         <div className="p-3">

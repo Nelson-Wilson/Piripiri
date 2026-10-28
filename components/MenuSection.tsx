@@ -84,6 +84,7 @@ export default function MenuSection() {
                     fill
                     sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 300px"
                     className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.08]"
+                    style={{ objectPosition: d.pos }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-900/95 via-ink-900/25 to-transparent" />
                   {d.badge && (

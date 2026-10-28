@@ -4,6 +4,8 @@ export type Dish = {
   name: string;
   desc: string;
   img?: string;
+  /** object-position do recorte 4:3 (ex.: "50% 20%") */
+  pos?: string;
   price?: string;
   badge?: string;
   cat: Category;
@@ -26,7 +28,7 @@ export const dishes: Dish[] = [
   {
     name: "Frango à Píri-píri",
     desc: "O prato da casa. Frango marinado no nosso piri-piri, grelhado lentamente sobre brasa viva até ficar dourado e suculento.",
-    img: "/images/p54.jpg",
+    img: "/images/fotos/frango-inteiro.jpg",
     badge: "Inteiro",
     cat: "Carnes",
   },
@@ -52,6 +54,19 @@ export const dishes: Dish[] = [
     cat: "Carnes",
   },
   {
+    name: "Bife Panado com Ovo",
+    desc: "Bife panado e estaladiço com ovo estrelado e batata frita dourada.",
+    img: "/images/fotos/bife-panado.jpg",
+    cat: "Carnes",
+  },
+  {
+    name: "Caril de Frango",
+    desc: "Frango no molho de caril da casa, servido com arroz branco.",
+    img: "/images/fotos/caril-frango.jpg",
+    pos: "50% 55%",
+    cat: "Carnes",
+  },
+  {
     name: "Moelas Estufadas",
     desc: "Moelas cozinhadas devagar no nosso molho, com pão para acompanhar.",
     img: "/images/p46.jpg",
@@ -61,7 +76,7 @@ export const dishes: Dish[] = [
   {
     name: "Camarão Grelhado",
     desc: "Camarão médio e tigre na brasa, alho, limão e um fio de azeite. Servido com batata frita e salada.",
-    img: "/images/prawns-hero.jpg",
+    img: "/images/fotos/camarao-grelhado.jpg",
     badge: "1/2 dose · dose",
     cat: "Peixe & Marisco",
   },
@@ -69,6 +84,12 @@ export const dishes: Dish[] = [
     name: "Caril de Camarão",
     desc: "Camarão cozido lentamente em caril aromático da casa, para molhar o pão até ao fim.",
     img: "/images/p06.jpg",
+    cat: "Peixe & Marisco",
+  },
+  {
+    name: "Arroz de Marisco",
+    desc: "Arroz cozinhado com camarão e marisco, finalizado com ervas frescas.",
+    img: "/images/fotos/arroz-marisco.jpg",
     cat: "Peixe & Marisco",
   },
   {
@@ -87,7 +108,7 @@ export const dishes: Dish[] = [
   {
     name: "Peixe Grelhado com Legumes",
     desc: "Filete grelhado com legumes salteados — leve, fresco e cheio de sabor a carvão.",
-    img: "/images/p45.jpg",
+    img: "/images/fotos/peixe-legumes.jpg",
     cat: "Peixe & Marisco",
   },
   {
@@ -127,13 +148,14 @@ export const dishes: Dish[] = [
   {
     name: "Sorvete Servido na Taça",
     desc: "Gelado cremoso servido na taça clássica, para fechar a refeição.",
-    img: "/images/p41.jpg",
+    img: "/images/p47.jpg",
     cat: "Sobremesas",
   },
   {
     name: "Expresso",
     desc: "Café expresso curto, bem tirado — a assinatura do fim da refeição.",
-    img: "/images/p47.jpg",
+    img: "/images/fotos/expresso-pastel.jpg",
+    pos: "50% 70%",
     cat: "Bebidas",
   },
   {
@@ -145,7 +167,28 @@ export const dishes: Dish[] = [
   {
     name: "Draft Beer",
     desc: "Imperial bem gelada, para acompanhar o frango na brasa.",
-    img: "/images/p49.jpg",
+    img: "/images/fotos/cerveja-draft.jpg",
+    pos: "50% 15%",
+    cat: "Bebidas",
+  },
+  {
+    name: "Cocktails",
+    desc: "Cocktails frutados servidos bem frios ao balcão.",
+    img: "/images/fotos/cocktails.jpg",
+    pos: "50% 65%",
+    cat: "Bebidas",
+  },
+  {
+    name: "Piña Colada",
+    desc: "Cremosa, gelada e decorada com ananás.",
+    img: "/images/fotos/pina-colada.jpg",
+    pos: "50% 60%",
+    cat: "Bebidas",
+  },
+  {
+    name: "Sangria",
+    desc: "Sangria fresca com fruta, servida no copo e no jarro de barro.",
+    img: "/images/fotos/sangria.jpg",
     cat: "Bebidas",
   },
 ];
@@ -210,7 +253,7 @@ export const specialties = [
     title: "Frango na Brasa",
     kicker: "A assinatura da casa",
     desc: "Marinado no dia, grelhado sobre carvão até a pele estalar.",
-    img: "/images/p54.jpg",
+    img: "/images/fotos/frango-inteiro.jpg",
     href: "#menu",
   },
   {
@@ -218,7 +261,7 @@ export const specialties = [
     title: "Camarão Grelhado",
     kicker: "Do mar para a brasa",
     desc: "Camarão tigre e médio, alho, limão e azeite.",
-    img: "/images/prawns-hero.jpg",
+    img: "/images/fotos/camarao-grelhado.jpg",
     href: "#menu",
   },
   {
@@ -240,16 +283,23 @@ export const specialties = [
 ];
 
 export const gallery = [
-  { src: "/images/p13.jpg", alt: "Fachada do Restaurante Píri Píri na Av. 24 de Julho", w: 397, h: 298, wide: true },
-  { src: "/images/p54.jpg", alt: "Frango à Píri-píri inteiro na brasa", w: 550, h: 716 },
-  { src: "/images/p19.jpg", alt: "Camarão grelhado com batata frita", w: 550, h: 716 },
-  { src: "/images/p14.jpg", alt: "Sala do restaurante com mesas e toalhas vermelhas", w: 688, h: 387, wide: true },
-  { src: "/images/p03.jpg", alt: "Prego no prato com ovo e batata frita", w: 550, h: 716 },
-  { src: "/images/p37.jpg", alt: "Frango grelhado em pedaços com batata frita", w: 550, h: 716 },
-  { src: "/images/p09.jpg", alt: "Lulas grelhadas com arroz e legumes", w: 550, h: 716 },
-  { src: "/images/p46.jpg", alt: "Moelas estufadas na travessa", w: 550, h: 716 },
-  { src: "/images/p41.jpg", alt: "Sorvete servido na taça", w: 550, h: 716 },
-  { src: "/images/p15.jpg", alt: "Interior do restaurante ao fim do dia", w: 688, h: 387, wide: true },
-  { src: "/images/p51.jpg", alt: "Camarão grelhado com salada e limão", w: 550, h: 716 },
-  { src: "/images/p49.jpg", alt: "Cerveja de pressão gelada", w: 550, h: 716 },
+  { src: "/images/p13.jpg", alt: "Fachada do Restaurante Píri Píri na Av. 24 de Julho", w: 1100, h: 825, wide: true },
+  { src: "/images/fotos/ambiente-terraco.jpg", alt: "Cliente a saborear uma bebida na esplanada", w: 1000, h: 1249 },
+  { src: "/images/fotos/pina-colada.jpg", alt: "Piña colada gelada ao balcão", w: 1000, h: 1250 },
+  { src: "/images/fotos/caril-frango.jpg", alt: "Caril de frango com arroz branco", w: 1000, h: 1249 },
+  { src: "/images/fotos/cocktails.jpg", alt: "Cocktails frutados com palhinhas coloridas", w: 1000, h: 1250 },
+  { src: "/images/fotos/camarao-grelhado.jpg", alt: "Camarão tigre grelhado com salada e batata frita", w: 1200, h: 798, wide: true },
+  { src: "/images/fotos/frango-inteiro.jpg", alt: "Frango à Píri-píri com batata frita e limão", w: 1200, h: 798, wide: true },
+  { src: "/images/fotos/cocktail-maracuja.jpg", alt: "Cocktail de maracujá com laranja e guarda-chuva", w: 1000, h: 1250 },
+  { src: "/images/fotos/cerveja-draft.jpg", alt: "Cerveja de pressão gelada", w: 1000, h: 1250 },
+  { src: "/images/fotos/xima-estufado.jpg", alt: "Estufado servido com xima", w: 1000, h: 1250 },
+  { src: "/images/fotos/sangria.jpg", alt: "Sangria com fruta e jarro de barro", w: 1000, h: 1250 },
+  { src: "/images/fotos/arroz-marisco.jpg", alt: "Arroz de marisco com camarão", w: 1200, h: 798, wide: true },
+  { src: "/images/fotos/bife-panado.jpg", alt: "Bife panado com ovo estrelado e batata frita", w: 1200, h: 798, wide: true },
+  { src: "/images/fotos/cafe-com-leite.jpg", alt: "Café com leite em copo de vidro", w: 1000, h: 1250 },
+  { src: "/images/fotos/expresso-pastel.jpg", alt: "Expresso com pastel de nata", w: 1000, h: 1250 },
+  { src: "/images/fotos/takeaway.jpg", alt: "Embalagens para take away ao balcão", w: 1200, h: 798, wide: true },
+  { src: "/images/p14.jpg", alt: "Sala do restaurante com mesas e toalhas", w: 1100, h: 619, wide: true },
+  { src: "/images/fotos/peixe-legumes.jpg", alt: "Peixe grelhado com legumes e azeitonas", w: 1200, h: 676, wide: true },
+  { src: "/images/p15.jpg", alt: "Interior do restaurante ao fim do dia", w: 1100, h: 619, wide: true },
 ];
