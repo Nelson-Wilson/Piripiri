@@ -1,5 +1,15 @@
 export type Category = "Carnes" | "Peixe & Marisco" | "Entradas" | "Acompanhamentos" | "Sobremesas" | "Bebidas";
 
+export const categoryEmojis: Record<Category | "Outros", string> = {
+  Carnes: "🍖",
+  "Peixe & Marisco": "🐟",
+  Entradas: "🥗",
+  Acompanhamentos: "🍟",
+  Sobremesas: "🍰",
+  Bebidas: "🍷",
+  Outros: "🍽️",
+};
+
 export type Dish = {
   name: string;
   desc: string;

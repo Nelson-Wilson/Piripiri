@@ -2,28 +2,11 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CalendarCheck,
-  CalendarDays,
-  Check,
-  ChevronDown,
-  Clock,
-  MapPinned,
-  Maximize2,
-  Phone,
-  Plus,
-  Soup,
-  User,
-  Users,
-  Utensils,
-  X,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, Check, ChevronDown, Clock, MapPinned, Maximize2, Minus, Phone, Plus, Soup, User, Users, Utensils, X } from "lucide-react";
 import Reveal from "./Reveal";
 import TableMap3D from "./TableMap3D";
 import FloorPlanModal from "./FloorPlanModal";
-import { categories, menuBook, type Category } from "@/data/menu";
+import { categories, categoryEmojis, menuBook, type Category } from "@/data/menu";
 import {
   blockedTables,
   closeMinutes,
@@ -39,6 +22,8 @@ import {
 } from "@/data/reservas";
 import { telHref, waReservasLink } from "@/lib/site";
 
+type BookingItem = { name: string; quantity: number };
+
 type Booking = {
   date: string; // yyyy-mm-dd
   time: string; // HH:MM
@@ -46,7 +31,7 @@ type Booking = {
   people: number;
   name: string;
   phone: string;
-  dishes: string[];
+  dishes: BookingItem[];
 };
 type Status = "available" | "reserved" | "unavailable";
 type Errors = Partial<Record<"name" | "phone" | "date" | "time" | "table", string>>;
@@ -123,7 +108,7 @@ export default function Reservas() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("19:00");
   const [people, setPeople] = useState(2);
-  const [dishes, setDishes] = useState<string[]>([]);
+  const [dishes, setDishes] = useState<BookingItem[]>([]);
   const [customDish, setCustomDish] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuCat, setMenuCat] = useState<Category>("Carnes");
@@ -168,13 +153,20 @@ export default function Reservas() {
     try {
       const raw = localStorage.getItem(storageKey);
       if (raw) {
-        // compatibilidade com reservas antigas (campo `dish` singular)
-        const parsed = JSON.parse(raw) as (Omit<Booking, "dishes"> & { dishes?: string[]; dish?: string })[];
+        // compatibilidade com reservas antigas
+        const parsed = JSON.parse(raw) as any[];
         setBookings(
-          parsed.map((b) => ({
-            ...b,
-            dishes: b.dishes ?? (b.dish && b.dish !== "Decidir no local" ? [b.dish] : []),
-          }))
+          parsed.map((b) => {
+            let normalizedDishes: BookingItem[] = [];
+            if (Array.isArray(b.dishes)) {
+              normalizedDishes = b.dishes.map((d: any) =>
+                typeof d === "string" ? { name: d, quantity: 1 } : d
+              );
+            } else if (typeof b.dish === "string" && b.dish !== "Decidir no local") {
+              normalizedDishes = [{ name: b.dish, quantity: 1 }];
+            }
+            return { ...b, dishes: normalizedDishes };
+          })
         );
       }
     } catch {
@@ -232,18 +224,36 @@ export default function Reservas() {
   };
 
   const toggleDish = (name: string) =>
-    setDishes((prev) => (prev.includes(name) ? prev.filter((d) => d !== name) : [...prev, name]));
+    setDishes((prev) =>
+      prev.some((d) => d.name === name)
+        ? prev.filter((d) => d.name !== name)
+        : [...prev, { name, quantity: 1 }]
+    );
+
+  const updateDishQty = (name: string, delta: number) => {
+    setDishes((prev) =>
+      prev
+        .map((d) => (d.name === name ? { ...d, quantity: Math.max(0, d.quantity + delta) } : d))
+        .filter((d) => d.quantity > 0)
+    );
+  };
 
   const addCustomDish = () => {
     const name = customDish.trim();
     if (!name) return;
-    setDishes((prev) =>
-      prev.some((d) => d.toLowerCase() === name.toLowerCase()) ? prev : [...prev, name]
-    );
+    setDishes((prev) => {
+      const existing = prev.find((d) => d.name.toLowerCase() === name.toLowerCase());
+      if (existing) {
+        return prev.map((d) =>
+          d.name.toLowerCase() === name.toLowerCase() ? { ...d, quantity: d.quantity + 1 } : d
+        );
+      }
+      return [...prev, { name, quantity: 1 }];
+    });
     setCustomDish("");
   };
 
-  const removeDish = (name: string) => setDishes((prev) => prev.filter((d) => d !== name));
+  const removeDish = (name: string) => setDishes((prev) => prev.filter((d) => d.name !== name));
 
   const validate = (): Errors => {
     const e: Errors = {};
@@ -330,7 +340,7 @@ export default function Reservas() {
                   <h3 className="h-display mt-4 text-[26px] text-gold-400">Reserva registada</h3>
                   <p className="mt-3 max-w-[340px] text-[13px] leading-relaxed text-cream/85">
                     Mesa {done.table} para {done.people} {done.people === 1 ? "pessoa" : "pessoas"} no dia {fmtDate(done.date)} às{" "}
-                    {done.time}. {done.dishes.length > 0 ? `Pratos: ${done.dishes.join(", ")}.` : ""}
+                    {done.time}. {done.dishes.length > 0 ? `Pratos: ${done.dishes.map(d => `${d.quantity}x ${d.name}`).join(", ")}.` : ""}
                   </p>
                   <p className="mt-2 max-w-[340px] text-[12px] leading-relaxed text-cream/60">
                     Abrimos o WhatsApp com os dados da reserva. Envie a mensagem para o restaurante a confirmar.
@@ -463,16 +473,17 @@ export default function Reservas() {
                     <div className="rounded-lg border border-gold-400/55 bg-ink-800/90 p-3">
                       {dishes.length > 0 ? (
                         <div className="flex flex-wrap gap-1.5">
-                          {dishes.map((name) => (
+                          {dishes.map((item) => (
                             <span
-                              key={name}
+                              key={item.name}
                               className="inline-flex items-center gap-1.5 rounded-full border border-gold-400/50 bg-gold-400/15 py-1 pl-2.5 pr-1.5 text-[10.5px] text-gold-100"
                             >
-                              {name}
+                              <span className="font-bold text-gold-400">{item.quantity}x</span>
+                              {item.name}
                               <button
                                 type="button"
-                                onClick={() => removeDish(name)}
-                                aria-label={`Remover ${name}`}
+                                onClick={() => removeDish(item.name)}
+                                aria-label={`Remover ${item.name}`}
                                 className="grid h-4 w-4 place-items-center rounded-full text-gold-300 transition hover:bg-gold-400/25 hover:text-white"
                               >
                                 <X className="h-3 w-3" />
@@ -665,7 +676,8 @@ export default function Reservas() {
             <div className="container-x py-6">
               <div className="grid gap-3 sm:grid-cols-2">
                 {menuBook[menuCat].map((l) => {
-                  const on = dishes.includes(l.name);
+                  const item = dishes.find((d) => d.name === l.name);
+                  const on = !!item;
                   return (
                     <div
                       key={l.name}
@@ -682,19 +694,37 @@ export default function Reservas() {
                       {l.price && (
                         <span className="shrink-0 font-display text-[12px] text-gold-300">{l.price}</span>
                       )}
-                      <button
-                        type="button"
-                        onClick={() => toggleDish(l.name)}
-                        aria-pressed={on}
-                        className={`inline-flex shrink-0 items-center gap-1 rounded-full border px-3 py-1.5 text-[9.5px] font-bold uppercase tracking-[0.12em] transition ${
-                          on
-                            ? "border-gold-400 bg-gold-400 text-ink-900"
-                            : "border-gold-400/40 text-gold-300 hover:bg-gold-400/15"
-                        }`}
-                      >
-                        {on ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
-                        {on ? "Adicionado" : "Adicionar"}
-                      </button>
+
+                      {on ? (
+                        <div className="flex items-center gap-2 rounded-full border border-gold-400/50 bg-ink-900/50 p-1">
+                          <button
+                            type="button"
+                            onClick={() => updateDishQty(l.name, -1)}
+                            className="grid h-6 w-6 place-items-center rounded-full text-gold-400 transition hover:bg-gold-400/20"
+                          >
+                            <Minus className="h-3 w-3" />
+                          </button>
+                          <span className="min-w-[1.2rem] text-center text-[11px] font-bold text-cream">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateDishQty(l.name, 1)}
+                            className="grid h-6 w-6 place-items-center rounded-full text-gold-400 transition hover:bg-gold-400/20"
+                          >
+                            <Plus className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => toggleDish(l.name)}
+                          className="inline-flex shrink-0 items-center gap-1 rounded-full border border-gold-400/40 px-3 py-1.5 text-[9.5px] font-bold uppercase tracking-[0.12em] text-gold-300 transition hover:bg-gold-400/15"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                          Adicionar
+                        </button>
+                      )}
                     </div>
                   );
                 })}
@@ -731,19 +761,20 @@ export default function Reservas() {
               {dishes.length > 0 && (
                 <div className="mt-6">
                   <p className="text-[9.5px] uppercase tracking-[0.24em] text-gold-400/80">
-                    Selecionados ({dishes.length})
+                    Selecionados ({dishes.reduce((acc, d) => acc + d.quantity, 0)})
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
-                    {dishes.map((name) => (
+                    {dishes.map((item) => (
                       <span
-                        key={name}
+                        key={item.name}
                         className="inline-flex items-center gap-1.5 rounded-full border border-gold-400/50 bg-gold-400/15 py-1 pl-2.5 pr-1.5 text-[10.5px] text-gold-100"
                       >
-                        {name}
+                        <span className="font-bold text-gold-400">{item.quantity}x</span>
+                        {item.name}
                         <button
                           type="button"
-                          onClick={() => removeDish(name)}
-                          aria-label={`Remover ${name}`}
+                          onClick={() => removeDish(item.name)}
+                          aria-label={`Remover ${item.name}`}
                           className="grid h-4 w-4 place-items-center rounded-full text-gold-300 transition hover:bg-gold-400/25 hover:text-white"
                         >
                           <X className="h-3 w-3" />
@@ -779,20 +810,20 @@ export default function Reservas() {
 }
 
 /** Agrupa os pratos escolhidos pelas categorias da carta. */
-function groupDishes(selected: string[]) {
+function groupDishes(selected: BookingItem[]) {
   const used = new Set<string>();
-  const groups: { cat: string; items: string[] }[] = [];
+  const groups: { cat: string; emoji: string; items: BookingItem[] }[] = [];
 
   for (const cat of categories) {
-    const items = menuBook[cat]
-      .map((l) => l.name)
-      .filter((name) => !used.has(name) && selected.includes(name));
-    items.forEach((name) => used.add(name));
-    if (items.length > 0) groups.push({ cat, items });
+    const items = selected.filter(
+      (s) => !used.has(s.name) && menuBook[cat].some((l) => l.name === s.name)
+    );
+    items.forEach((item) => used.add(item.name));
+    if (items.length > 0) groups.push({ cat, emoji: categoryEmojis[cat], items });
   }
 
-  const others = selected.filter((name) => !used.has(name));
-  if (others.length > 0) groups.push({ cat: "Outros", items: others });
+  const others = selected.filter((s) => !used.has(s.name));
+  if (others.length > 0) groups.push({ cat: "Outros", emoji: categoryEmojis.Outros, items: others });
 
   return groups;
 }
@@ -814,7 +845,10 @@ function waMessage(b: Booking) {
     lines.push("Pratos: A decidir no local");
   } else {
     lines.push("Pratos:");
-    for (const g of groups) lines.push(`• ${g.cat}: ${g.items.join(", ")}`);
+    for (const g of groups) {
+      const itemsStr = g.items.map((i) => `${i.quantity}x ${i.name}`).join(", ");
+      lines.push(`${g.emoji} ${g.cat}: ${itemsStr}`);
+    }
   }
 
   lines.push("", "Aguardo a confirmação da reserva.");

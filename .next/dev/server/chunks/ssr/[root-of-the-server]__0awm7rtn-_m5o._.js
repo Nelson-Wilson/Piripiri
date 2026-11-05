@@ -336,7 +336,7 @@ const social = [
 ];
 function Footer() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
-        className: "relative overflow-hidden border-t border-cream/10 bg-ink-900 bg-[url('/images/bg/texture.webp')] bg-cover bg-bottom pb-24 pt-8 lg:pb-6",
+        className: "relative overflow-hidden border-t border-cream/10 bg-ink-900 bg-texture bg-cover bg-bottom pb-24 pt-8 lg:pb-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 "aria-hidden": true,
@@ -844,7 +844,11 @@ __turbopack_context__.s([
     "waHref",
     ()=>waHref,
     "waLink",
-    ()=>waLink
+    ()=>waLink,
+    "waReservasLink",
+    ()=>waReservasLink,
+    "waReservasNumber",
+    ()=>waReservasNumber
 ]);
 function cn(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -852,6 +856,8 @@ function cn(...classes) {
 const telHref = "tel:+258846724350";
 const waHref = "https://wa.me/258846724350?text=Ol%C3%A1%20Piri%20Piri%2C%20gostaria%20de%20fazer%20um%20pedido.";
 const waLink = (text)=>`https://wa.me/258846724350?text=${encodeURIComponent(text)}`;
+const waReservasNumber = "258866473065";
+const waReservasLink = (text)=>`https://wa.me/${waReservasNumber}?text=${encodeURIComponent(text)}`;
 const mapsHref = "https://www.google.com/maps/dir/?api=1&destination=-25.9766875,32.5928125";
 const mapsPlaceHref = "https://www.google.com/maps/search/?api=1&query=Restaurante+Piri+Piri+Av.+24+de+Julho+Maputo";
 const facebookHref = "https://www.facebook.com/restaurantepiripirimaputo/";

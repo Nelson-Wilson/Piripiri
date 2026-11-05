@@ -4,7 +4,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/1Ptgg87LROyAm0K0.ttf") format("truetype");
+  src: url("/fonts/anton-latin.woff2") format("woff2");
 }
 
 @font-face {
@@ -12,71 +12,23 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/JTUSjIg69CK48gW7PXooxW4.ttf") format("truetype");
+  src: url("/fonts/bebas-neue-latin.woff2") format("woff2");
 }
 
 @font-face {
   font-family: Caveat;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 600 700;
   font-display: swap;
-  src: url("/fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjSx6SII.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: Caveat;
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf") format("truetype");
+  src: url("/fonts/caveat-latin.woff2") format("woff2");
 }
 
 @font-face {
   font-family: Plus Jakarta Sans;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 300 800;
   font-display: swap;
-  src: url("/fonts/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_907NSg.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: Plus Jakarta Sans;
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_qU7NSg.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: Plus Jakarta Sans;
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_m07NSg.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: Plus Jakarta Sans;
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("/fonts/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_d0nNSg.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: Plus Jakarta Sans;
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_TknNSg.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: Plus Jakarta Sans;
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("/fonts/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_KUnNSg.ttf") format("truetype");
+  src: url("/fonts/plus-jakarta-sans-latin.woff2") format("woff2");
 }
 
 /*# sourceMappingURL=app_fonts_css_1igg3k2-ikub5._.single.css.map*/
