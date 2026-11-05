@@ -20,7 +20,7 @@ const social = [
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-cream/10 bg-ink-900 bg-[url('/images/bg/texture.webp')] bg-cover bg-bottom pb-24 pt-8 lg:pb-6">
+    <footer className="relative overflow-hidden border-t border-cream/10 bg-ink-900 bg-texture bg-cover bg-bottom pb-24 pt-8 lg:pb-6">
       <div aria-hidden className="absolute inset-0 bg-ink-900/70" />
       <div className="container-x relative z-10">
         <div className="grid items-center gap-6 lg:grid-cols-[auto_1fr_auto_auto_auto]">

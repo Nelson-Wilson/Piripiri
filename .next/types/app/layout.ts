@@ -1,4 +1,4 @@
-// File: C:\Users\nelso\OneDrive\Documentos\GitHub\Piri-piri\Piripiri\app\layout.tsx
+// File: C:\Users\nelso\Downloads\piri-piri-maputo-v3\piri-piri-maputo\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

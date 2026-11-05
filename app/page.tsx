@@ -8,6 +8,7 @@ import WhyUs from "@/components/WhyUs";
 import MenuSection from "@/components/MenuSection";
 import Gallery from "@/components/Gallery";
 import About from "@/components/About";
+import Reservas from "@/components/Reservas";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import MobileBar from "@/components/MobileBar";
@@ -34,7 +35,7 @@ const jsonLd = {
     closes: "02:00",
   },
   hasMenu: { "@type": "Menu", name: "Menu Píri Píri" },
-  acceptsReservations: "False",
+  acceptsReservations: "True",
   sameAs: [
     "https://www.facebook.com/restaurantepiripirimaputo/",
     "https://www.instagram.com/restaurantepiripirimaputo",
@@ -59,6 +60,7 @@ export default function Page() {
         <MenuSection />
         <Gallery />
         <About />
+        <Reservas />
         <Contact />
       </main>
       <Footer />

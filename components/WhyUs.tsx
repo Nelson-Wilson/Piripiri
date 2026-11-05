@@ -12,7 +12,7 @@ const items = [
 
 export default function WhyUs() {
   return (
-    <section className="relative overflow-hidden border-y border-cream/10 bg-ink-900 bg-[url('/images/bg/red-strokes.webp')] bg-cover bg-center py-9 md:py-10">
+    <section className="relative overflow-hidden border-y border-cream/10 bg-ink-900 bg-red-strokes bg-cover bg-center py-9 md:py-10">
       <div className="container-x relative z-10 grid items-center gap-8 lg:grid-cols-[1fr_2.2fr_1.35fr]">
         <Reveal>
           <p className="slant font-script text-[34px] font-bold leading-[0.95] text-cream">

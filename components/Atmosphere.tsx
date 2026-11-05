@@ -1,6 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import type { CSSProperties } from "react";
+
+type EmberStyle = CSSProperties & { "--ember-t"?: string; "--ember-d"?: string };
 
 const embers = [
   { x: 8, y: 82, s: 3, d: 0, t: 14 },
@@ -23,8 +25,6 @@ const embers = [
 
 /** Camada atmosférica reutilizável: brasas, fumo e vinheta. Puramente decorativa. */
 export default function Atmosphere({ ember = true }: { ember?: boolean }) {
-  const reduce = useReducedMotion();
-
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* fumo */}
@@ -39,23 +39,26 @@ export default function Atmosphere({ ember = true }: { ember?: boolean }) {
           animationDelay: "-8s",
         }}
       />
-      {/* brasas */}
-      {ember && !reduce && (
+      {/* brasas — animação CSS pura, sem custo de runtime */}
+      {ember && (
         <div className="absolute inset-0">
           {embers.map((p, i) => (
-            <motion.span
+            <span
               key={i}
-              className="absolute rounded-full"
-              style={{
-                left: `${p.x}%`,
-                top: `${p.y}%`,
-                width: p.s,
-                height: p.s,
-                background: "radial-gradient(circle, #ffd489 0%, #ff7a18 55%, rgba(194,32,15,0) 100%)",
-                boxShadow: "0 0 10px rgba(255,122,24,0.8)",
-              }}
-              animate={{ y: [0, -130, -260], opacity: [0, 0.95, 0], x: [0, 12, -8] }}
-              transition={{ duration: p.t, delay: p.d, repeat: Infinity, ease: "easeOut" }}
+              className="ember absolute rounded-full"
+              style={
+                {
+                  left: `${p.x}%`,
+                  top: `${p.y}%`,
+                  width: p.s,
+                  height: p.s,
+                  background:
+                    "radial-gradient(circle, #ffd489 0%, #ff7a18 55%, rgba(194,32,15,0) 100%)",
+                  boxShadow: "0 0 10px rgba(255,122,24,0.8)",
+                  "--ember-t": `${p.t}s`,
+                  "--ember-d": `${p.d}s`,
+                } as EmberStyle
+              }
             />
           ))}
         </div>

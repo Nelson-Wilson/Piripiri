@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -11,20 +11,50 @@ type Props = {
   once?: boolean;
 };
 
-/** Scroll reveal com máscara + subida suave. */
+type RevealStyle = CSSProperties & { "--reveal-y"?: string };
+
+/** Scroll reveal leve: IntersectionObserver + transição CSS (sem framer-motion). */
 export default function Reveal({ children, delay = 0, y = 34, className, once = true }: Props) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setShown(true);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          if (once) io.disconnect();
+        } else if (!once) {
+          setShown(false);
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.01 }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [once]);
+
+  const style: RevealStyle = {
+    "--reveal-y": `${y}px`,
+    transitionDelay: `${delay}s`,
+  };
 
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once, margin: "-12% 0px -12% 0px" }}
-      transition={{ duration: 0.95, delay, ease: [0.22, 1, 0.36, 1] }}
+    <div
+      ref={ref}
+      className={`reveal ${shown ? "is-in" : ""} ${className ?? ""}`.trim()}
+      style={style}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

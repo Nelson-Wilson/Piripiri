@@ -55,8 +55,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-MZ" suppressHydrationWarning>
       <head>
-        <link rel="preload" as="image" href="/images/hero-chicken.jpg" />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/bg/hero-mobile.webp"
+          media="(max-width: 1023px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/bg/hero.webp"
+          media="(min-width: 1024px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/fonts/plus-jakarta-sans-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/anton-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <noscript>
+          <style>{`.pp-preloader{display:none!important}.hero-anim{opacity:1!important;transform:none!important;animation:none!important}`}</style>
+        </noscript>
       </head>
       <body className="antialiased">
         {children}

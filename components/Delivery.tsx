@@ -6,7 +6,7 @@ import { telHref, waHref } from "@/lib/site";
 /** Painel vermelho promocional (faixa "Porque escolher") — mantém ligação, WhatsApp e mapa. */
 export default function Delivery() {
   return (
-    <div className="relative overflow-hidden rounded-[14px] bg-[#7a0b10] bg-[url('/images/bg/delivery-moto.webp')] bg-cover bg-[52%_center] p-5 sm:p-6">
+    <div className="relative overflow-hidden rounded-[14px] bg-[#7a0b10] bg-delivery bg-cover bg-[52%_center] p-5 sm:p-6">
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(100deg,rgba(70,4,8,0.9)_0%,rgba(100,8,12,0.55)_45%,rgba(122,11,16,0)_85%)]" />
       <div className="relative">
         <p className="text-[11px] font-bold uppercase leading-tight tracking-[0.12em] text-cream">Entrega ao domicílio</p>

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Flame } from "lucide-react";
 import Reveal from "./Reveal";
 import { categories, dishes, menuBook, type Category } from "@/data/menu";
@@ -20,8 +19,8 @@ export default function MenuSection() {
   const scrollRail = (d: number) => rail.current?.scrollBy({ left: d * 280, behavior: "smooth" });
 
   return (
-    <section id="menu" className="relative overflow-hidden bg-ink-900 bg-[url('/images/bg/clean.webp')] bg-cover bg-center py-14 md:py-16">
-      <div aria-hidden className="pointer-events-none absolute -bottom-6 -left-4 h-[300px] w-[460px] bg-[url('/images/bg/embers.webp')] bg-cover bg-left-bottom opacity-90 [mask-image:linear-gradient(90deg,#000_55%,transparent)]" />
+    <section id="menu" className="relative overflow-hidden bg-ink-900 bg-clean bg-cover bg-center py-14 md:py-16">
+      <div aria-hidden className="pointer-events-none absolute -bottom-6 -left-4 h-[300px] w-[460px] bg-embers bg-cover bg-left-bottom opacity-90 [mask-image:linear-gradient(90deg,#000_55%,transparent)]" />
       <div className="container-x relative z-10">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <Reveal>
@@ -45,17 +44,10 @@ export default function MenuSection() {
                 onClick={() => setActive(c)}
                 className={`relative rounded-full border px-4 py-2 text-[10.5px] font-bold uppercase tracking-[0.2em] transition-all duration-300 ${
                   active === c
-                    ? "border-gold-400/60 text-gold-200"
+                    ? "border-gold-400/60 bg-gold-400/10 text-gold-200 shadow-[0_0_30px_-8px_rgba(232,163,61,0.7)]"
                     : "border-cream/12 text-cream/45 hover:border-cream/25 hover:text-cream/75"
                 }`}
               >
-                {active === c && (
-                  <motion.span
-                    layoutId="tabGlow"
-                    className="absolute inset-0 -z-10 rounded-full bg-gold-400/10 shadow-[0_0_30px_-8px_rgba(232,163,61,0.7)]"
-                    transition={{ type: "spring", stiffness: 320, damping: 30 }}
-                  />
-                )}
                 {lang === "en" ? categoryEn[c] : c}
               </button>
             ))}
@@ -66,16 +58,11 @@ export default function MenuSection() {
           <button onClick={() => scrollRail(-1)} aria-label={t.prev} className="absolute -left-3 top-1/3 z-20 hidden h-10 w-10 place-items-center rounded-full bg-flame-500 text-cream shadow-lg md:grid"><ChevronLeft className="h-5 w-5" /></button>
           <button onClick={() => scrollRail(1)} aria-label={t.next} className="absolute -right-3 top-1/3 z-20 hidden h-10 w-10 place-items-center rounded-full bg-flame-500 text-cream shadow-lg md:grid"><ChevronRight className="h-5 w-5" /></button>
         <div ref={rail} className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <AnimatePresence mode="popLayout">
             {cards.map((d, i) => (
-              <motion.article
+              <article
                 key={d.name}
-                layout
-                initial={{ opacity: 0, y: 26, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -14, scale: 0.98 }}
-                transition={{ duration: 0.55, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative flex w-[200px] shrink-0 snap-start flex-col overflow-hidden rounded-[10px] border border-gold-400/25 bg-ink-900 sm:w-[216px]"
+                style={{ animationDelay: `${0.05 * i}s` }}
+                className="anim-fade-up group relative flex w-[200px] shrink-0 snap-start flex-col overflow-hidden rounded-[10px] border border-gold-400/25 bg-ink-900 sm:w-[216px]"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -102,9 +89,8 @@ export default function MenuSection() {
                     {t.order}
                   </a>
                 </div>
-              </motion.article>
+              </article>
             ))}
-          </AnimatePresence>
         </div>
         </div>
 

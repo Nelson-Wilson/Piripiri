@@ -1,4 +1,16 @@
 {
+  "components\\SmoothScroll.tsx -> lenis": {
+    "id": "components\\SmoothScroll.tsx -> lenis",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_lenis_dist_lenis_mjs.js"
+    ]
+  },
+  "components\\TableMap3D.tsx -> @/lib/three-scene": {
+    "id": "components\\TableMap3D.tsx -> @/lib/three-scene",
+    "files": [
+      "static/chunks/_app-pages-browser_lib_three-scene_ts.js"
+    ]
+  },
   "node_modules\\next\\dist\\client\\components\\react-dev-overlay\\internal\\helpers\\use-websocket.js -> @vercel/turbopack-ecmascript-runtime/browser/dev/hmr-client/hmr-client.ts": {
     "id": "node_modules\\next\\dist\\client\\components\\react-dev-overlay\\internal\\helpers\\use-websocket.js -> @vercel/turbopack-ecmascript-runtime/browser/dev/hmr-client/hmr-client.ts",
     "files": [

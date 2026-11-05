@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { Wordmark } from "./Logo";
 import { telHref } from "@/lib/site";
@@ -12,7 +11,7 @@ const links = [
   { href: "#menu", label: "Menu" },
   { href: "#galeria", label: "Galeria" },
   { href: "#sobre", label: "Sobre" },
-  { href: "#criticas", label: "Críticas" },
+  { href: "#reservas", label: "Reserva" },
   { href: "#contactos", label: "Contactos" },
 ];
 
@@ -85,15 +84,8 @@ export default function Nav() {
         </div>
       </header>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-[130] flex flex-col bg-ink-900 lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-          >
+      {open && (
+        <div className="anim-fade-in fixed inset-0 z-[130] flex flex-col bg-ink-900 lg:hidden">
             <div
               className="absolute inset-0 opacity-80"
               style={{
@@ -113,20 +105,18 @@ export default function Nav() {
             </div>
             <nav className="relative flex flex-1 flex-col justify-center gap-1 px-6">
               {links.map((l, i) => (
-                <motion.a
+                <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="group flex items-baseline justify-between border-b border-cream/8 py-3.5"
-                  initial={{ opacity: 0, x: -18 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.06 * i + 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ animationDelay: `${0.06 * i + 0.08}s` }}
+                  className="anim-slide-left group flex items-baseline justify-between border-b border-cream/8 py-3.5"
                 >
                   <span className="font-display text-[30px] uppercase leading-none text-cream group-hover:text-gold-300">
                     {l.label}
                   </span>
                   <span className="text-[10px] tracking-[0.3em] text-gold-500/50">0{i + 1}</span>
-                </motion.a>
+                </a>
               ))}
             </nav>
             <div className="relative px-6 pb-8">
@@ -137,9 +127,8 @@ export default function Nav() {
                 Av. 24 de Julho · Maputo
               </p>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </>
   );
 }

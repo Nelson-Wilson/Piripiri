@@ -52,7 +52,7 @@ export default function Contact() {
   return (
     <section
       id="contactos"
-      className="relative overflow-hidden border-t border-cream/10 bg-ink-900 bg-[url('/images/bg/clean.webp')] bg-cover bg-center py-7"
+      className="relative overflow-hidden border-t border-cream/10 bg-ink-900 bg-clean bg-cover bg-center py-7"
     >
       <div aria-hidden className="absolute inset-0 bg-ink-900/80" />
       <div className="container-x relative z-10 grid items-center gap-6 lg:grid-cols-[1.15fr_1fr_1fr_1fr_1.1fr]">

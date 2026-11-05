@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState, useCallback, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Navigation } from "lucide-react";
 import Reveal from "./Reveal";
 import { gallery } from "@/data/menu";
@@ -13,10 +12,10 @@ export default function Gallery() {
   const [all, setAll] = useState(false);
   // faixa de destaque: camarão, frango, arroz de marisco, bife panado
   const strip = [
-    "camarao-grelhado.jpg",
-    "frango-inteiro.jpg",
-    "arroz-marisco.jpg",
-    "bife-panado.jpg",
+    "camarao-grelhado.webp",
+    "frango-inteiro.webp",
+    "arroz-marisco.webp",
+    "bife-panado.webp",
   ]
     .map((f) => gallery.findIndex((g) => g.src.endsWith(f)))
     .filter((i) => i >= 0);
@@ -44,7 +43,7 @@ export default function Gallery() {
   }, [idx, close, next, prev]);
 
   return (
-    <section id="galeria" className="relative overflow-hidden bg-ink-900 bg-[url('/images/bg/texture.webp')] bg-cover bg-[position:center_30%] py-14 md:py-16">
+    <section id="galeria" className="relative overflow-hidden bg-ink-900 bg-texture bg-cover bg-[position:center_30%] py-14 md:py-16">
       <div className="container-x relative z-10">
         <div className="grid items-center gap-8 lg:grid-cols-[3fr_1fr]">
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -101,15 +100,11 @@ export default function Gallery() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {idx !== null && (
-          <motion.div
-            className="fixed inset-0 z-[160] flex items-center justify-center bg-ink-900/95 p-4 backdrop-blur-lg"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={close}
-          >
+      {idx !== null && (
+        <div
+          className="anim-fade-in fixed inset-0 z-[160] flex items-center justify-center bg-ink-900/95 p-4 backdrop-blur-lg"
+          onClick={close}
+        >
             <button
               onClick={close}
               aria-label="Fechar"
@@ -137,13 +132,10 @@ export default function Gallery() {
             >
               <ChevronRight className="h-5 w-5" />
             </button>
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-[820px]"
+              className="anim-modal-in relative w-full max-w-[820px]"
             >
               <Image
                 src={gallery[idx].src}
@@ -154,10 +146,9 @@ export default function Gallery() {
                 sizes="90vw"
               />
               <p className="mt-3 text-center text-[11px] tracking-wide text-cream/55">{gallery[idx].alt}</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+        </div>
+      )}
     </section>
   );
 }

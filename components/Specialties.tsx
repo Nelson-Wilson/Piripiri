@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { ArrowRight, Drumstick, Fish, UtensilsCrossed, CupSoda } from "lucide-react";
 import Reveal from "./Reveal";
 import { specialties } from "@/data/menu";
@@ -10,7 +9,7 @@ const icons = [Drumstick, Fish, UtensilsCrossed, CupSoda];
 
 export default function Specialties() {
   return (
-    <section id="especialidades" className="relative overflow-hidden bg-ink-900 bg-[url('/images/bg/texture.webp')] bg-cover bg-center py-10 md:py-12">
+    <section id="especialidades" className="relative overflow-hidden bg-ink-900 bg-texture bg-cover bg-center py-10 md:py-12">
 
       <div className="container-x relative z-10 grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,3.1fr)]">
         <Reveal className="pt-6">
@@ -31,11 +30,9 @@ export default function Specialties() {
             const Icon = icons[i] ?? UtensilsCrossed;
             return (
               <Reveal key={s.title} delay={0.07 * i}>
-                <motion.a
+                <a
                   href={s.href}
-                  whileHover={{ y: -8 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                  className="group relative block overflow-hidden rounded-[14px] border border-gold-400/25 bg-ink-900 shadow-card"
+                  className="group relative block overflow-hidden rounded-[14px] border border-gold-400/25 bg-ink-900 shadow-card transition-transform duration-500 ease-out hover:-translate-y-2"
                   data-cursor="grow"
                 >
                   <div className="relative aspect-[4/4.3] overflow-hidden">
@@ -55,7 +52,7 @@ export default function Specialties() {
                     <h3 className="font-display text-[15px] uppercase leading-tight tracking-wide text-cream">{s.title}</h3>
                     <p className="mt-1.5 text-[11.5px] leading-snug text-cream/65">{s.desc}</p>
                   </div>
-                </motion.a>
+                </a>
               </Reveal>
             );
           })}

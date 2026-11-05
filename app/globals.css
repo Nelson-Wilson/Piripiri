@@ -320,3 +320,103 @@ body {
     mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
   }
 }
+
+/* ---------- animações leves (CSS puro, sem runtime JS) ---------- */
+@keyframes pp-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pp-fade-up {
+  from { opacity: 0; transform: translate3d(0, 26px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pp-slide-left {
+  from { opacity: 0; transform: translate3d(-18px, 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pp-modal-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pp-ember {
+  0% { opacity: 0; transform: translate3d(0, 0, 0); }
+  12% { opacity: 0.95; }
+  100% { opacity: 0; transform: translate3d(-10px, -260px, 0); }
+}
+
+.anim-fade-in { animation: pp-fade-in 0.35s ease-out both; }
+.anim-fade-up { animation: pp-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-slide-left { animation: pp-slide-left 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-modal-in { animation: pp-modal-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* scroll reveal sem biblioteca: só IntersectionObserver + transição CSS */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 34px), 0);
+  filter: blur(10px);
+  transition:
+    opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  will-change: auto;
+}
+
+.ember {
+  opacity: 0;
+  animation: pp-ember var(--ember-t, 16s) linear infinite;
+  animation-delay: var(--ember-d, 0s);
+}
+
+/* abertura — 1,5 s + saída suave, sem runtime de animação */
+@keyframes pp-preloader-out {
+  to { opacity: 0; filter: blur(12px); }
+}
+@keyframes pp-preloader-bar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+@keyframes pp-hero-in {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+.pp-preloader-out { animation: pp-preloader-out 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.pp-preloader-logo { animation: pp-hero-in 0.8s ease-out both; }
+.pp-preloader-bar { animation: pp-preloader-bar 1.35s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+
+.hero-anim { opacity: 0; }
+.pp-loaded .hero-anim { animation: pp-hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* texturas de fundo: versão pequena no telemóvel, completa em desktop */
+.bg-texture { background-image: url("/images/bg/texture-sm.webp"); }
+.bg-clean { background-image: url("/images/bg/clean-sm.webp"); }
+.bg-delivery { background-image: url("/images/bg/delivery-moto-sm.webp"); }
+.bg-red-strokes { background-image: url("/images/bg/red-strokes-sm.webp"); }
+.bg-embers { background-image: url("/images/bg/embers-sm.webp"); }
+@media (min-width: 768px) {
+  .bg-texture { background-image: url("/images/bg/texture.webp"); }
+  .bg-clean { background-image: url("/images/bg/clean.webp"); }
+  .bg-delivery { background-image: url("/images/bg/delivery-moto.webp"); }
+  .bg-red-strokes { background-image: url("/images/bg/red-strokes.webp"); }
+  .bg-embers { background-image: url("/images/bg/embers.webp"); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-in,
+  .anim-fade-up,
+  .anim-slide-left,
+  .anim-modal-in { animation: none !important; }
+  .ember { display: none !important; }
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  .pp-preloader { display: none !important; }
+  .pp-preloader-logo,
+  .pp-preloader-bar,
+  .pp-preloader-out { animation: none !important; }
+  .hero-anim { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
