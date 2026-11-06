@@ -10,7 +10,7 @@ import { categoryEn, tr, ui } from "@/data/menu-en";
 import { useMenuLang, LangSwitch } from "./useMenuLang";
 
 export default function MenuSection() {
-  const [active, setActive] = useState<Category>("Carnes");
+  const [active, setActive] = useState<Category>("Aves");
   const [lang, setLang] = useMenuLang();
   const t = ui[lang];
   const cards = useMemo(() => dishes.filter((d) => d.cat === active && d.img), [active]);

@@ -21,6 +21,8 @@ import {
   zoneConfig,
 } from "@/data/reservas";
 import { telHref, waReservasLink } from "@/lib/site";
+import { categoryEn, reservasUi, tr } from "@/data/menu-en";
+import { useMenuLang, LangSwitch } from "./useMenuLang";
 
 type BookingItem = { name: string; quantity: number };
 
@@ -104,6 +106,9 @@ function SelectWrap({ children }: { children: ReactNode }) {
 
 /* ---------- secção ---------- */
 export default function Reservas() {
+  const [lang, setLang] = useMenuLang();
+  const t = reservasUi[lang];
+
   const [clock, setClock] = useState({ today: "", nowMin: 0 });
   const [date, setDate] = useState("");
   const [time, setTime] = useState("19:00");
@@ -111,7 +116,7 @@ export default function Reservas() {
   const [dishes, setDishes] = useState<BookingItem[]>([]);
   const [customDish, setCustomDish] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [menuCat, setMenuCat] = useState<Category>("Carnes");
+  const [menuCat, setMenuCat] = useState<Category>("Aves");
   const [plansOpen, setPlansOpen] = useState(false);
   const [mapZone, setMapZone] = useState<TableZone>("interior");
   const [table, setTable] = useState<number | null>(1);
@@ -257,11 +262,11 @@ export default function Reservas() {
 
   const validate = (): Errors => {
     const e: Errors = {};
-    if (name.trim().length < 3) e.name = "Indique o seu nome completo.";
-    if (!/^8[2-7]\d{7}$/.test(phone.replace(/\D/g, ""))) e.phone = "Número inválido. Ex.: 84 123 4567";
-    if (!date || date < clock.today) e.date = "Escolha uma data a partir de hoje.";
-    if (!time) e.time = "Sem horários livres neste dia.";
-    if (table === null || statusOf(table) !== "available") e.table = "Escolha uma mesa disponível.";
+    if (name.trim().length < 3) e.name = t.nameError;
+    if (!/^8[2-7]\d{7}$/.test(phone.replace(/\D/g, ""))) e.phone = t.phoneError;
+    if (!date || date < clock.today) e.date = t.dateError;
+    if (!time) e.time = t.timeError;
+    if (table === null || statusOf(table) !== "available") e.table = t.tableError;
     return e;
   };
 
@@ -283,7 +288,7 @@ export default function Reservas() {
       /* ignora */
     }
     setDone(booking);
-    window.open(waReservasLink(waMessage(booking)), "_blank", "noopener,noreferrer");
+    window.open(waReservasLink(waMessage(booking, lang)), "_blank", "noopener,noreferrer");
   };
 
   const reset = () => {
@@ -314,15 +319,18 @@ export default function Reservas() {
           <Reveal className="flex items-center gap-3 sm:gap-4">
             <TableIcon className="h-12 w-12 shrink-0 text-gold-400 sm:h-14 sm:w-14" />
             <h2 className="h-display text-[9.5vw] leading-[0.95] text-cream sm:text-[6vw] lg:text-[34px] xl:text-[40px]">
-              Reserve a sua
-              <span className="slant mt-1 block text-[1.55em] leading-[0.9] text-gold-400">mesa</span>
-              <span className="mt-1 block text-[0.78em]">em poucos minutos</span>
+              {t.title1}
+              <span className="slant mt-1 block text-[1.55em] leading-[0.9] text-gold-400">{t.title2}</span>
+              <span className="mt-1 block text-[0.78em]">{t.title3}</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1} className="lg:border-l lg:border-cream/20 lg:pl-8">
-            <p className="max-w-[330px] text-[14px] leading-relaxed text-cream/90">
-              Escolha os pratos que pretende, selecione a mesa e nós preparamos tudo para a sua chegada.
-            </p>
+            <div className="flex flex-col items-start gap-4">
+              <LangSwitch lang={lang} setLang={setLang} />
+              <p className="max-w-[330px] text-[14px] leading-relaxed text-cream/90">
+                {t.description}
+              </p>
+            </div>
             <span aria-hidden className="paint-r mt-3 block h-2 w-48 -rotate-2" />
           </Reveal>
         </div>
@@ -337,31 +345,39 @@ export default function Reservas() {
                   <span className="grid h-14 w-14 place-items-center rounded-full bg-gold-400 text-ink-900">
                     <Check className="h-7 w-7" strokeWidth={3} />
                   </span>
-                  <h3 className="h-display mt-4 text-[26px] text-gold-400">Reserva registada</h3>
+                  <h3 className="h-display mt-4 text-[26px] text-gold-400">{t.doneTitle}</h3>
                   <p className="mt-3 max-w-[340px] text-[13px] leading-relaxed text-cream/85">
-                    Mesa {done.table} para {done.people} {done.people === 1 ? "pessoa" : "pessoas"} no dia {fmtDate(done.date)} às{" "}
-                    {done.time}. {done.dishes.length > 0 ? `Pratos: ${done.dishes.map(d => `${d.quantity}x ${d.name}`).join(", ")}.` : ""}
+                    {t.doneSub1
+                      .replace("{table}", String(done.table))
+                      .replace("{people}", String(done.people))
+                      .replace("{pLabel}", done.people === 1 ? t.person.toLowerCase() : t.people.toLowerCase())
+                      .replace("{date}", fmtDate(done.date))
+                      .replace("{time}", done.time)}
+                    {" "}
+                    {done.dishes.length > 0
+                      ? t.doneSub2.replace("{dishes}", done.dishes.map((d) => `${d.quantity}x ${tr(lang, d.name)}`).join(", "))
+                      : ""}
                   </p>
                   <p className="mt-2 max-w-[340px] text-[12px] leading-relaxed text-cream/60">
-                    Abrimos o WhatsApp com os dados da reserva. Envie a mensagem para o restaurante a confirmar.
+                    {t.doneNote}
                   </p>
                   <div className="mt-5 flex flex-wrap justify-center gap-3">
-                    <a href={waReservasLink(waMessage(done))} target="_blank" rel="noopener noreferrer" className="btn btn-gold !px-6 !py-3 !text-[11px]">
-                      Enviar por WhatsApp
+                    <a href={waReservasLink(waMessage(done, lang))} target="_blank" rel="noopener noreferrer" className="btn btn-gold !px-6 !py-3 !text-[11px]">
+                      {t.sendWa}
                     </a>
                     <button type="button" onClick={reset} className="btn btn-ghost !px-6 !py-3 !text-[11px]">
-                      Nova reserva
+                      {t.newBooking}
                     </button>
                   </div>
                 </div>
               ) : (
                 <form ref={formRef} onSubmit={submit} noValidate className="grid grid-cols-1 gap-x-5 gap-y-4 sm:grid-cols-2">
-                  <Field id="res-name" label="Nome Completo" icon={<User className="h-4 w-4" />} error={errors.name}>
+                  <Field id="res-name" label={t.nameLabel} icon={<User className="h-4 w-4" />} error={errors.name}>
                     <input
                       id="res-name"
                       type="text"
                       autoComplete="name"
-                      placeholder="Ex: João da Silva"
+                      placeholder={t.namePlaceholder}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       aria-invalid={!!errors.name}
@@ -369,13 +385,13 @@ export default function Reservas() {
                       className={fieldCls}
                     />
                   </Field>
-                  <Field id="res-phone" label="Telefone" icon={<Phone className="h-4 w-4" />} error={errors.phone}>
+                  <Field id="res-phone" label={t.phoneLabel} icon={<Phone className="h-4 w-4" />} error={errors.phone}>
                     <input
                       id="res-phone"
                       type="tel"
                       inputMode="tel"
                       autoComplete="tel-national"
-                      placeholder="Ex: 84 123 4567"
+                      placeholder={t.phonePlaceholder}
                       value={phone}
                       onChange={(e) => setPhone(fmtPhone(e.target.value))}
                       aria-invalid={!!errors.phone}
@@ -384,7 +400,7 @@ export default function Reservas() {
                     />
                   </Field>
 
-                  <Field id="res-date" label="Data" icon={<CalendarDays className="h-4 w-4" />} error={errors.date}>
+                  <Field id="res-date" label={t.dateLabel} icon={<CalendarDays className="h-4 w-4" />} error={errors.date}>
                     <input
                       id="res-date"
                       type="date"
@@ -396,7 +412,7 @@ export default function Reservas() {
                       className={`${fieldCls} [color-scheme:dark]`}
                     />
                   </Field>
-                  <Field id="res-time" label="Horário" icon={<Clock className="h-4 w-4" />} error={errors.time}>
+                  <Field id="res-time" label={t.timeLabel} icon={<Clock className="h-4 w-4" />} error={errors.time}>
                     <SelectWrap>
                       <select
                         id="res-time"
@@ -416,19 +432,19 @@ export default function Reservas() {
                     </SelectWrap>
                   </Field>
 
-                  <Field id="res-people" label="Nº de Pessoas" icon={<Users className="h-4 w-4" />}>
+                  <Field id="res-people" label={t.peopleLabel} icon={<Users className="h-4 w-4" />}>
                     <SelectWrap>
                       <select id="res-people" value={people} onChange={(e) => setPeople(Number(e.target.value))} className={`${fieldCls} appearance-none pr-9`}>
                         {Array.from({ length: maxPeople }, (_, i) => i + 1).map((n) => (
                           <option key={n} value={n}>
-                            {n} {n === 1 ? "Pessoa" : "Pessoas"}
+                            {n} {n === 1 ? t.person : t.people}
                           </option>
                         ))}
                       </select>
                     </SelectWrap>
                   </Field>
 
-                  <Field id="res-table" label="Escolha da Mesa" icon={<TableIcon className="h-4 w-4" />} error={errors.table}>
+                  <Field id="res-table" label={t.tableLabel} icon={<TableIcon className="h-4 w-4" />} error={errors.table}>
                     <SelectWrap>
                       <select
                         id="res-table"
@@ -438,19 +454,19 @@ export default function Reservas() {
                         aria-describedby={errors.table ? "res-table-err" : undefined}
                         className={`${fieldCls} appearance-none pr-9`}
                       >
-                        {table === null && <option value="">Sem mesas disponíveis</option>}
+                        {table === null && <option value="">{t.noTables}</option>}
                         {(["interior", "explanada"] as const).map((z) => (
-                          <optgroup key={z} label={zoneConfig[z].name}>
+                          <optgroup key={z} label={lang === "en" ? (z === "interior" ? t.zoneInterior : t.zoneExplanada) : zoneConfig[z].name}>
                             {tables
                               .filter((t) => t.zone === z)
                               .slice()
                               .sort((a, b) => a.id - b.id)
-                              .map((t) => {
-                                const st = statusOf(t.id);
+                              .map((tb) => {
+                                const st = statusOf(tb.id);
                                 return (
-                                  <option key={t.id} value={t.id} disabled={st !== "available"}>
-                                    Mesa {t.id}
-                                    {st === "reserved" ? " — reservada" : st === "unavailable" ? " — indisponível" : ""}
+                                  <option key={tb.id} value={tb.id} disabled={st !== "available"}>
+                                    {t.tableLabel.split(" ")[0]} {tb.id}
+                                    {st === "reserved" ? ` — ${t.tableReserved}` : st === "unavailable" ? ` — ${t.tableUnavailable}` : ""}
                                   </option>
                                 );
                               })}
@@ -465,9 +481,9 @@ export default function Reservas() {
                       <span className="text-gold-400">
                         <Utensils className="h-4 w-4" />
                       </span>
-                      Pratos
+                      {t.dishesLabel}
                       <span className="text-[10px] font-normal text-cream/40">
-                        (opcional — escolha no menu)
+                        ({t.dishesSub.toLowerCase()})
                       </span>
                     </p>
                     <div className="rounded-lg border border-gold-400/55 bg-ink-800/90 p-3">
@@ -479,11 +495,11 @@ export default function Reservas() {
                               className="inline-flex items-center gap-1.5 rounded-full border border-gold-400/50 bg-gold-400/15 py-1 pl-2.5 pr-1.5 text-[10.5px] text-gold-100"
                             >
                               <span className="font-bold text-gold-400">{item.quantity}x</span>
-                              {item.name}
+                              {tr(lang, item.name)}
                               <button
                                 type="button"
                                 onClick={() => removeDish(item.name)}
-                                aria-label={`Remover ${item.name}`}
+                                aria-label={`Remover ${tr(lang, item.name)}`}
                                 className="grid h-4 w-4 place-items-center rounded-full text-gold-300 transition hover:bg-gold-400/25 hover:text-white"
                               >
                                 <X className="h-3 w-3" />
@@ -493,7 +509,7 @@ export default function Reservas() {
                         </div>
                       ) : (
                         <p className="text-[11px] leading-relaxed text-cream/40">
-                          Ainda não escolheu pratos. Abra o menu e adicione os pratos que quiser.
+                          {t.menuEmptyOrder}.
                         </p>
                       )}
 
@@ -503,7 +519,7 @@ export default function Reservas() {
                         className="btn btn-gold mt-3 w-full !py-2.5 !text-[10.5px]"
                       >
                         <Utensils className="h-4 w-4" />
-                        {dishes.length > 0 ? "Editar pratos no menu" : "Abrir menu e escolher pratos"}
+                        {dishes.length > 0 ? t.dishesBtn.replace("Selecionar", "Editar") : t.dishesBtn}
                       </button>
                     </div>
                   </div>
@@ -511,7 +527,7 @@ export default function Reservas() {
                   <div className="mt-2 flex justify-center sm:col-span-2">
                     <button type="submit" className="btn btn-fire !px-9 !py-4 !text-[12px]">
                       <CalendarCheck className="h-5 w-5" />
-                      Confirmar reserva
+                      {t.confirmBtn}
                       <ArrowRight className="h-4 w-4" />
                     </button>
                   </div>
@@ -527,7 +543,7 @@ export default function Reservas() {
                 <div className="flex items-center gap-3">
                   <MapPinned className="h-8 w-8 text-gold-400" strokeWidth={1.6} />
                   <div>
-                    <h3 className="h-display slant text-[22px] leading-none text-gold-400 sm:text-[26px]">Mapa das mesas</h3>
+                    <h3 className="h-display slant text-[22px] leading-none text-gold-400 sm:text-[26px]">{t.mapTitle}</h3>
                     <span aria-hidden className="paint-r mt-1 block h-1.5 w-40 -rotate-1" />
                   </div>
                 </div>
@@ -537,8 +553,8 @@ export default function Reservas() {
                   className="inline-flex items-center gap-1.5 rounded-full border border-gold-400/40 bg-ink-800/70 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-gold-300 transition hover:border-gold-400 hover:text-gold-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
                 >
                   <Maximize2 className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Ver planta real</span>
-                  <span className="sm:hidden">Planta real</span>
+                  <span className="hidden sm:inline">{t.viewFloorPlan}</span>
+                  <span className="sm:hidden">{t.viewFloorPlan.replace("Ver planta", "Planta")}</span>
                 </button>
               </div>
 
@@ -554,17 +570,17 @@ export default function Reservas() {
                 <div className="grid gap-3 sm:w-[132px]">
                   <ul className="grid gap-2.5 rounded-[10px] border border-gold-400/30 bg-ink-800/80 p-3 text-[11px] text-cream sm:gap-3.5">
                     <li className="flex items-center gap-2.5">
-                      <span className="h-4 w-4 shrink-0 rounded-full bg-gold-400" /> Mesa Disponível
+                      <span className="h-4 w-4 shrink-0 rounded-full bg-gold-400" /> {t.available}
                     </li>
                     <li className="flex items-center gap-2.5">
-                      <span className="h-4 w-4 shrink-0 rounded-full bg-flame-400" /> Mesa Reservada
+                      <span className="h-4 w-4 shrink-0 rounded-full bg-flame-400" /> {t.reserved}
                     </li>
                     <li className="flex items-center gap-2.5">
-                      <span className="h-4 w-4 shrink-0 rounded-full bg-zinc-500" /> Mesa Indisponível
+                      <span className="h-4 w-4 shrink-0 rounded-full bg-zinc-500" /> {t.unavailable}
                     </li>
                   </ul>
                   <div className="rounded-[10px] border border-gold-400/30 bg-ink-800/80 p-2.5 text-center">
-                    <p className="text-[13px] font-extrabold text-gold-400">{selected ? `Mesa ${selected}` : "Sem mesa"}</p>
+                    <p className="text-[13px] font-extrabold text-gold-400">{selected ? `${t.tableLabel.split(" ")[0]} ${selected}` : t.noTableSelected}</p>
                     <div className="relative mt-2 aspect-[4/3] overflow-hidden rounded-md border border-gold-400/30 sm:aspect-[1/1]">
                       <Image
                         src="/images/interior.webp"
@@ -593,7 +609,7 @@ export default function Reservas() {
                 <Clock className="h-7 w-7" />
               </span>
               <div>
-                <p className="text-[12px] text-cream/90">Horário de Reservas</p>
+                <p className="text-[12px] text-cream/90">{t.bookingHours}</p>
                 <p className="font-display text-[22px] leading-tight tracking-wide text-gold-400">10:00 — 22:00</p>
               </div>
             </li>
@@ -603,9 +619,9 @@ export default function Reservas() {
               </span>
               <div>
                 <p className="text-[14px] font-bold text-cream">
-                  {availableCount} {availableCount === 1 ? "Mesa Disponível" : "Mesas Disponíveis"}
+                  {availableCount} {availableCount === 1 ? t.tableAvailable : t.tablesAvailable}
                 </p>
-                <p className="text-[11px] text-cream/70">(Capacidade para várias pessoas)</p>
+                <p className="text-[11px] text-cream/70">{t.capacityNote}</p>
               </div>
             </li>
             <li className="flex items-center justify-center gap-4 sm:px-6">
@@ -613,12 +629,12 @@ export default function Reservas() {
                 <Soup className="h-10 w-10" strokeWidth={1.5} />
               </span>
               <p className="max-w-[230px] text-[12.5px] leading-snug text-cream/90">
-                Os pratos escolhidos serão preparados antes da sua chegada.
+                {t.preOrderNote}
               </p>
             </li>
           </ul>
           <p className="mt-5 text-center text-[11px] text-cream/50">
-            Prefere reservar por telefone?{" "}
+            {t.phoneBooking}{" "}
             <a href={telHref} className="font-semibold text-gold-300 hover:text-gold-200">
               84 672 4350
             </a>
@@ -632,7 +648,7 @@ export default function Reservas() {
           className="fixed inset-0 z-[150] flex flex-col bg-ink-900/97 backdrop-blur-xl"
           role="dialog"
           aria-modal="true"
-          aria-label="Menu do restaurante — escolher pratos para a reserva"
+          aria-label={t.menuModalLabel}
         >
           <div className="border-b border-gold-400/20 bg-ink-900/95">
             <div className="container-x flex flex-wrap items-center justify-between gap-3 py-4">
@@ -641,8 +657,8 @@ export default function Reservas() {
                   <Utensils className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-gold-400/80">Reserva de mesa</p>
-                  <h2 className="h-display text-[26px] leading-none text-cream sm:text-[30px]">Menu</h2>
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-gold-400/80">{t.menuModalKicker}</p>
+                  <h2 className="h-display text-[26px] leading-none text-cream sm:text-[30px]">{t.menuTitle}</h2>
                 </div>
               </div>
               <button
@@ -650,7 +666,7 @@ export default function Reservas() {
                 onClick={() => setMenuOpen(false)}
                 className="btn btn-ghost !px-5 !py-2.5 !text-[10px]"
               >
-                <ArrowLeft className="h-4 w-4" /> Voltar ao formulário
+                <ArrowLeft className="h-4 w-4" /> {t.back}
               </button>
             </div>
 
@@ -666,7 +682,7 @@ export default function Reservas() {
                       : "border-cream/12 text-cream/50 hover:border-cream/25 hover:text-cream/80"
                   }`}
                 >
-                  {c}
+                  {lang === "en" ? categoryEn[c] : c}
                 </button>
               ))}
             </div>
@@ -678,6 +694,8 @@ export default function Reservas() {
                 {menuBook[menuCat].map((l) => {
                   const item = dishes.find((d) => d.name === l.name);
                   const on = !!item;
+                  const nameTr = tr(lang, l.name);
+                  const noteTr = l.note ? tr(lang, l.note) : "";
                   return (
                     <div
                       key={l.name}
@@ -686,9 +704,9 @@ export default function Reservas() {
                       }`}
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="text-[12.5px] leading-snug text-cream">{l.name}</p>
+                        <p className="text-[12.5px] leading-snug text-cream">{nameTr}</p>
                         {l.note && (
-                          <p className="mt-0.5 text-[9.5px] uppercase tracking-[0.14em] text-cream/35">{l.note}</p>
+                          <p className="mt-0.5 text-[9.5px] uppercase tracking-[0.14em] text-cream/35">{noteTr}</p>
                         )}
                       </div>
                       {l.price && (
@@ -722,7 +740,7 @@ export default function Reservas() {
                           className="inline-flex shrink-0 items-center gap-1 rounded-full border border-gold-400/40 px-3 py-1.5 text-[9.5px] font-bold uppercase tracking-[0.12em] text-gold-300 transition hover:bg-gold-400/15"
                         >
                           <Plus className="h-3.5 w-3.5" />
-                          Adicionar
+                          {t.menuAddCustom}
                         </button>
                       )}
                     </div>
@@ -731,7 +749,7 @@ export default function Reservas() {
               </div>
 
               <div className="mt-6 rounded-xl border border-cream/10 bg-ink-800/60 p-4">
-                <p className="text-[11px] text-cream/70">Não encontrou o prato que quer?</p>
+                <p className="text-[11px] text-cream/70">{t.menuSearchPlaceholder.replace("Pesquisar prato...", "Não encontrou o prato que quer?")}</p>
                 <div className="mt-2 flex flex-col gap-2 sm:flex-row">
                   <input
                     type="text"
@@ -743,8 +761,8 @@ export default function Reservas() {
                         addCustomDish();
                       }
                     }}
-                    placeholder="Escreva o nome do prato…"
-                    aria-label="Adicionar outro prato que não está na lista"
+                    placeholder={t.menuSearchPlaceholder.replace("Pesquisar prato...", "Escreva o nome do prato…")}
+                    aria-label={t.menuModalLabel.replace("escolher pratos", "adicionar outro prato")}
                     className={`${fieldCls} flex-1`}
                   />
                   <button
@@ -753,7 +771,7 @@ export default function Reservas() {
                     disabled={!customDish.trim()}
                     className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-gold-400/60 bg-gold-400/10 px-4 text-[10.5px] font-bold uppercase tracking-[0.12em] text-gold-200 transition hover:bg-gold-400/20 disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    <Plus className="h-3.5 w-3.5" /> Adicionar à reserva
+                    <Plus className="h-3.5 w-3.5" /> {t.menuAddCustom} à reserva
                   </button>
                 </div>
               </div>
@@ -761,7 +779,7 @@ export default function Reservas() {
               {dishes.length > 0 && (
                 <div className="mt-6">
                   <p className="text-[9.5px] uppercase tracking-[0.24em] text-gold-400/80">
-                    Selecionados ({dishes.reduce((acc, d) => acc + d.quantity, 0)})
+                    {t.menuSelected} ({dishes.reduce((acc, d) => acc + d.quantity, 0)})
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {dishes.map((item) => (
@@ -770,11 +788,11 @@ export default function Reservas() {
                         className="inline-flex items-center gap-1.5 rounded-full border border-gold-400/50 bg-gold-400/15 py-1 pl-2.5 pr-1.5 text-[10.5px] text-gold-100"
                       >
                         <span className="font-bold text-gold-400">{item.quantity}x</span>
-                        {item.name}
+                        {tr(lang, item.name)}
                         <button
                           type="button"
                           onClick={() => removeDish(item.name)}
-                          aria-label={`Remover ${item.name}`}
+                          aria-label={`Remover ${tr(lang, item.name)}`}
                           className="grid h-4 w-4 place-items-center rounded-full text-gold-300 transition hover:bg-gold-400/25 hover:text-white"
                         >
                           <X className="h-3 w-3" />
@@ -791,7 +809,7 @@ export default function Reservas() {
             <div className="container-x flex flex-wrap items-center justify-between gap-3 py-3">
               <p className="text-[11px] text-cream/60">
                 {dishes.length === 0
-                  ? "Nenhum prato escolhido — pode decidir no local."
+                  ? t.menuEmptyOrder + " — " + t.dishesSub.toLowerCase() + "."
                   : `${dishes.length} ${dishes.length === 1 ? "prato escolhido" : "pratos escolhidos"} para a reserva.`}
               </p>
               <button
@@ -799,7 +817,7 @@ export default function Reservas() {
                 onClick={() => setMenuOpen(false)}
                 className="btn btn-gold !px-6 !py-3 !text-[10.5px]"
               >
-                Voltar ao formulário <ArrowRight className="h-4 w-4" />
+                {t.confirmBtn.replace("Confirmar Reserva", "Voltar ao formulário")} <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -828,29 +846,31 @@ function groupDishes(selected: BookingItem[]) {
   return groups;
 }
 
-function waMessage(b: Booking) {
+function waMessage(b: Booking, lang: "pt" | "en" = "pt") {
+  const isEn = lang === "en";
   const lines = [
-    "Olá Piri Piri! Gostaria de reservar uma mesa.",
+    isEn ? "Hello Piri Piri! I would like to book a table." : "Olá Piri Piri! Gostaria de reservar uma mesa.",
     "",
-    `Nome: ${b.name}`,
-    `Telefone: ${b.phone}`,
-    `Data: ${fmtDate(b.date)}`,
-    `Horário: ${b.time}`,
-    `Pessoas: ${b.people}`,
-    `Mesa: ${b.table}`,
+    `${isEn ? "Name" : "Nome"}: ${b.name}`,
+    `${isEn ? "Phone" : "Telefone"}: ${b.phone}`,
+    `${isEn ? "Date" : "Data"}: ${fmtDate(b.date)}`,
+    `${isEn ? "Time" : "Horário"}: ${b.time}`,
+    `${isEn ? "People" : "Pessoas"}: ${b.people}`,
+    `${isEn ? "Table" : "Mesa"}: ${b.table}`,
   ];
 
   const groups = groupDishes(b.dishes);
   if (groups.length === 0) {
-    lines.push("Pratos: A decidir no local");
+    lines.push(`${isEn ? "Dishes" : "Pratos"}: ${isEn ? "To decide on site" : "A decidir no local"}`);
   } else {
-    lines.push("Pratos:");
+    lines.push(`${isEn ? "Dishes" : "Pratos"}:`);
     for (const g of groups) {
-      const itemsStr = g.items.map((i) => `${i.quantity}x ${i.name}`).join(", ");
-      lines.push(`${g.emoji} ${g.cat}: ${itemsStr}`);
+      const itemsStr = g.items.map((i) => `${i.quantity}x ${isEn ? tr("en", i.name) : i.name}`).join(", ");
+      const catLabel = isEn ? categoryEn[g.cat as Category] ?? g.cat : g.cat;
+      lines.push(`${g.emoji} ${catLabel}: ${itemsStr}`);
     }
   }
 
-  lines.push("", "Aguardo a confirmação da reserva.");
+  lines.push("", isEn ? "I look forward to your booking confirmation." : "Aguardo a confirmação da reserva.");
   return lines.join("\n");
 }
