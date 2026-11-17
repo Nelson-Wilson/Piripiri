@@ -11,8 +11,7 @@ export default function MenuPage() {
   const [lang, setLang] = useMenuLang();
   const t = ui[lang];
   return (
-    <main className="min-h-screen bg-ink-900 bg-[url('/images/bg/clean.webp')] bg-cover bg-fixed bg-center py-8 text-cream">
-      <div className="absolute inset-0 -z-0 bg-ink-900/80" aria-hidden />
+    <main className="menu-page min-h-screen py-8 text-[#241b00]">
       <div className="container-x relative z-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <a href="/" className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cream/70 hover:text-gold-300">

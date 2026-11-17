@@ -612,7 +612,7 @@ export default function TableMap3D({ tables, statuses, selected, onSelect, onZon
             onClick={() => setZone(z)}
             aria-pressed={zone === z}
             className={`rounded-full px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[0.12em] transition ${
-              zone === z ? "bg-gold-400 text-ink-900" : "text-cream/60 hover:text-cream"
+              zone === z ? "bg-gold-400 text-[#111111]" : "text-cream/60 hover:text-cream"
             }`}
           >
             {zoneConfig[z].name}
@@ -634,7 +634,7 @@ export default function TableMap3D({ tables, statuses, selected, onSelect, onZon
             onClick={() => setCam(m)}
             aria-pressed={cam === m}
             className={`rounded-full px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[0.12em] transition ${
-              cam === m ? "bg-gold-400 text-ink-900" : "text-cream/60 hover:text-cream"
+              cam === m ? "bg-gold-400 text-[#111111]" : "text-cream/60 hover:text-cream"
             }`}
           >
             {label}

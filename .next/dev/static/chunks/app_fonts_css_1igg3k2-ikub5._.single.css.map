@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/app/fonts.css"],"sourcesContent":["/* Local self-hosted Google Fonts — subset latin, formato WOFF2 (muito mais leve). */\n@font-face {\n  font-family: 'Anton';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(/fonts/anton-latin.woff2) format('woff2');\n}\n@font-face {\n  font-family: 'Bebas Neue';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(/fonts/bebas-neue-latin.woff2) format('woff2');\n}\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 600 700;\n  font-display: swap;\n  src: url(/fonts/caveat-latin.woff2) format('woff2');\n}\n@font-face {\n  font-family: 'Plus Jakarta Sans';\n  font-style: normal;\n  font-weight: 300 800;\n  font-display: swap;\n  src: url(/fonts/plus-jakarta-sans-latin.woff2) format('woff2');\n}\n"],"names":[],"mappings":"AACA;;;;;;;;AAOA;;;;;;;;AAOA;;;;;;;;AAOA"}}]
-}

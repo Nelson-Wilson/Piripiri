@@ -19,7 +19,7 @@ export default function About() {
   return (
     <section
       id="sobre"
-      className="relative overflow-hidden bg-ink-900 bg-texture bg-cover bg-center lg:grid lg:grid-cols-[34%_1fr]"
+      className="relative overflow-hidden bg-ink-900 lg:grid lg:grid-cols-[34%_1fr]"
     >
       <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[320px]">
         <Image
@@ -29,7 +29,7 @@ export default function About() {
           sizes="(max-width: 1024px) 100vw, 34vw"
           className="object-cover photo-grade"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-ink-900/70 max-lg:bg-gradient-to-t max-lg:from-ink-900/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/70 max-lg:bg-gradient-to-t max-lg:from-black/80" />
       </div>
 
       <div className="relative grid items-center gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[1.15fr_1fr] lg:px-10 lg:py-10 xl:pr-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))]">

@@ -20,8 +20,8 @@ const social = [
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-cream/10 bg-ink-900 bg-texture bg-cover bg-bottom pb-24 pt-8 lg:pb-6">
-      <div aria-hidden className="absolute inset-0 bg-ink-900/70" />
+    <footer className="relative overflow-hidden border-t border-cream/10 bg-ink-900 pb-24 pt-8 lg:pb-6">
+      <div aria-hidden className="absolute inset-0 bg-[#a60d26]/75" />
       <div className="container-x relative z-10">
         <div className="grid items-center gap-6 lg:grid-cols-[auto_1fr_auto_auto_auto]">
           <Wordmark />
@@ -40,7 +40,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${label} do Restaurante Píri Píri`}
-                className="grid h-8 w-8 place-items-center rounded-full bg-cream/90 text-ink-900 transition-colors hover:bg-gold-400"
+                className="grid h-8 w-8 place-items-center rounded-full bg-white/90 text-[#111111] transition-colors hover:bg-gold-400"
               >
                 <Icon className="h-4 w-4" />
               </a>

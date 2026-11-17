@@ -43,7 +43,7 @@ export default function Gallery() {
   }, [idx, close, next, prev]);
 
   return (
-    <section id="galeria" className="relative overflow-hidden bg-ink-900 bg-texture bg-cover bg-[position:center_30%] py-14 md:py-16">
+    <section id="galeria" className="relative overflow-hidden bg-ink-900 py-14 md:py-16">
       <div className="container-x relative z-10">
         <div className="grid items-center gap-8 lg:grid-cols-[3fr_1fr]">
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -89,7 +89,7 @@ export default function Gallery() {
                   className="object-cover transition-transform duration-[1300ms] ease-out group-hover:scale-[1.1]"
                   loading="lazy"
                 />
-                <span className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-95" />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-95" />
                 <span className="absolute inset-x-0 bottom-0 translate-y-2 p-3 text-left text-[10px] leading-snug text-cream/75 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                   {g.alt}
                 </span>

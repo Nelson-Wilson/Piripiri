@@ -19,8 +19,7 @@ export default function MenuSection() {
   const scrollRail = (d: number) => rail.current?.scrollBy({ left: d * 280, behavior: "smooth" });
 
   return (
-    <section id="menu" className="relative overflow-hidden bg-ink-900 bg-clean bg-cover bg-center py-14 md:py-16">
-      <div aria-hidden className="pointer-events-none absolute -bottom-6 -left-4 h-[300px] w-[460px] bg-embers bg-cover bg-left-bottom opacity-90 [mask-image:linear-gradient(90deg,#000_55%,transparent)]" />
+    <section id="menu" className="coal-2 relative overflow-hidden py-14 md:py-16">
       <div className="container-x relative z-10">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <Reveal>
@@ -73,7 +72,7 @@ export default function MenuSection() {
                     className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.08]"
                     style={{ objectPosition: d.pos }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink-900/95 via-ink-900/25 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-transparent" />
                   {d.badge && (
                     <span className="absolute left-3 top-3 rounded-full border border-gold-400/30 bg-ink-900/70 px-2.5 py-1 text-[8.5px] font-bold uppercase tracking-[0.16em] text-gold-200 backdrop-blur-md">
                       {tr(lang, d.badge)}
@@ -81,7 +80,7 @@ export default function MenuSection() {
                   )}
                 </div>
                 <div className="flex flex-1 flex-col p-3">
-                  <h3 className="font-display text-[14px] uppercase leading-tight tracking-wide text-cream">{tr(lang, d.name)}</h3>
+                  <h3 className="font-display text-[14px] uppercase leading-tight tracking-wide text-white">{tr(lang, d.name)}</h3>
                   <p className={`mt-1 flex-1 font-display text-[19px] leading-none ${d.price ? "text-gold-400" : "text-cream/35 !text-[11px] tracking-[0.14em] uppercase"}`}>
                     {d.price ?? tr(lang, "Preço sob consulta")}
                   </p>

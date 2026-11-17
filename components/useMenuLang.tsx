@@ -39,7 +39,7 @@ export function LangSwitch({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =
           type="button"
           onClick={() => setLang(l)}
           aria-pressed={lang === l}
-          className={`rounded-full px-3 py-1.5 transition-colors ${lang === l ? "bg-gold-400 text-ink-900" : "text-cream/60 hover:text-cream"}`}
+          className={`rounded-full px-3 py-1.5 transition-colors ${lang === l ? "bg-gold-400 text-[#111111]" : "text-cream/60 hover:text-cream"}`}
         >
           {l === "pt" ? "PT" : "EN"}
         </button>

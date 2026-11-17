@@ -304,15 +304,8 @@ export default function Reservas() {
   return (
     <section
       id="reservas"
-      className="relative scroll-mt-20 overflow-hidden border-t border-cream/10 bg-ink-900 bg-clean bg-cover bg-center py-14 lg:py-16"
+      className="relative scroll-mt-20 overflow-hidden border-t border-cream/10 bg-ink-900 py-14 lg:py-16"
     >
-      {/* frango na brasa, canto superior direito (como no design) */}
-      <div aria-hidden className="pointer-events-none absolute right-0 top-0 h-[46%] w-full lg:h-[52%] lg:w-[64%]">
-        <Image src="/images/bg/hero.webp" alt="" fill sizes="64vw" className="object-cover object-[75%_20%] opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/40 to-transparent" />
-      </div>
-
       <div className="container-x relative z-10">
         {/* título */}
         <div className="grid items-center gap-5 lg:grid-cols-[auto_1fr] lg:gap-8">
@@ -342,7 +335,7 @@ export default function Reservas() {
             <div className="relative h-full rounded-[14px] border border-gold-400/70 bg-ink-900/85 p-5 backdrop-blur-sm sm:p-6">
               {done ? (
                 <div className="flex h-full min-h-[360px] flex-col items-center justify-center text-center" role="status">
-                  <span className="grid h-14 w-14 place-items-center rounded-full bg-gold-400 text-ink-900">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-gold-400 text-[#111111]">
                     <Check className="h-7 w-7" strokeWidth={3} />
                   </span>
                   <h3 className="h-display mt-4 text-[26px] text-gold-400">{t.doneTitle}</h3>

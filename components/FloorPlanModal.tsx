@@ -104,7 +104,7 @@ export default function FloorPlanModal({ initialZone, onClose }: Props) {
                 aria-selected={zone === z}
                 onClick={() => setZone(z)}
                 className={`rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] transition ${
-                  zone === z ? "bg-gold-400 text-ink-900" : "text-cream/60 hover:text-cream"
+                  zone === z ? "bg-gold-400 text-[#111111]" : "text-cream/60 hover:text-cream"
                 }`}
               >
                 {zoneConfig[z].name}

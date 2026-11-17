@@ -9,7 +9,7 @@ const icons = [Drumstick, Fish, UtensilsCrossed, CupSoda];
 
 export default function Specialties() {
   return (
-    <section id="especialidades" className="relative overflow-hidden bg-ink-900 bg-texture bg-cover bg-center py-10 md:py-12">
+    <section id="especialidades" className="coal relative overflow-hidden py-10 md:py-12">
 
       <div className="container-x relative z-10 grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,3.1fr)]">
         <Reveal className="pt-6">
@@ -43,14 +43,14 @@ export default function Specialties() {
                       sizes="(max-width: 768px) 45vw, 250px"
                       className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.07]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
                   </div>
                   <div className="relative px-3.5 pb-4 pt-6">
                     <span className="absolute -top-[18px] left-3 grid h-9 w-9 place-items-center rounded-full bg-flame-500 shadow-[0_6px_18px_rgba(0,0,0,0.6)] ring-2 ring-ink-900">
                       <Icon className="h-4 w-4 text-cream" strokeWidth={1.8} />
                     </span>
-                    <h3 className="font-display text-[15px] uppercase leading-tight tracking-wide text-cream">{s.title}</h3>
-                    <p className="mt-1.5 text-[11.5px] leading-snug text-cream/65">{s.desc}</p>
+                    <h3 className="font-display text-[15px] uppercase leading-tight tracking-wide text-[#222222]">{s.title}</h3>
+                    <p className="mt-1.5 text-[11.5px] leading-snug text-[#555555]">{s.desc}</p>
                   </div>
                 </a>
               </Reveal>

@@ -1,7 +1,16 @@
 "use client";
 
 import { ArrowRight, Phone, Zap, ShoppingBag, Bike } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { telHref } from "@/lib/site";
+
+const heroPhotos = [
+  { src: "/images/bg/hero.webp", alt: "Frango Piri Piri acabado de grelhar na brasa" },
+  { src: "/images/hero-chicken.jpg", alt: "Frango grelhado, especialidade da casa Piri Piri" },
+  { src: "/images/fotos/frango-inteiro.webp", alt: "Frango inteiro Piri Piri servido com acompanhamentos" },
+  { src: "/images/fotos/camarao-grelhado.webp", alt: "Camarão grelhado, uma das especialidades Piri Piri" },
+];
 
 const perks = [
   { icon: Zap, label: "Atendimento\nRápido" },
@@ -10,9 +19,31 @@ const perks = [
 ];
 
 export default function Hero() {
+  const [activePhoto, setActivePhoto] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActivePhoto((current) => (current + 1) % heroPhotos.length);
+    }, 6000);
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
-    <section id="inicio" className="relative w-full overflow-hidden bg-ink-900 bg-[url('/images/bg/hero-mobile.webp')] bg-cover bg-[position:60%_0] bg-no-repeat lg:bg-[url('/images/bg/hero.webp')] lg:bg-[position:right_40%]">
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink-900/55 via-transparent to-transparent lg:bg-gradient-to-r lg:from-ink-900/40 lg:via-transparent" />
+    <section id="inicio" aria-label="Destaques Piri Piri" className="relative w-full overflow-hidden bg-ink-900">
+      <div className="absolute inset-0" aria-hidden="true">
+        {heroPhotos.map((photo, index) => (
+          <Image
+            key={photo.src}
+            src={photo.src}
+            alt=""
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className={`object-cover object-center transition-opacity duration-1000 lg:object-[right_40%] ${index === activePhoto ? "opacity-100" : "opacity-0"}`}
+          />
+        ))}
+      </div>
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/25 lg:to-transparent" />
 
       <div className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-14 pt-28 lg:min-h-[max(620px,43vw)] lg:justify-center lg:pb-10 lg:pt-24">
         <div className="max-w-[600px]">
@@ -58,6 +89,19 @@ export default function Hero() {
           <br />
           <span className="text-gold-400">Mais Tradição!</span>
         </p>
+      </div>
+
+      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2" role="group" aria-label="Fotografias em destaque">
+        {heroPhotos.map((photo, index) => (
+          <button
+            key={photo.src}
+            type="button"
+            aria-label={`Mostrar fotografia ${index + 1}: ${photo.alt}`}
+            aria-pressed={index === activePhoto}
+            onClick={() => setActivePhoto(index)}
+            className={`h-2 rounded-full border border-white/80 transition-all duration-300 ${index === activePhoto ? "w-7 bg-gold-400" : "w-2 bg-white/50 hover:bg-white"}`}
+          />
+        ))}
       </div>
 
     </section>

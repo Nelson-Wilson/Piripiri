@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --ink: #050305;
-  --ink-2: #0b0708;
-  --coal: #14100f;
-  --gold: #e8a33d;
-  --gold-hi: #ffe9bf;
-  --flame: #c2200f;
-  --ember: #ff7a18;
-  --cream: #f6ece0;
+  --ink: #c8102e;
+  --ink-2: #a60d26;
+  --coal: #8f0b22;
+  --gold: #ffcc00;
+  --gold-hi: #ffe36e;
+  --flame: #c8102e;
+  --ember: #e33a46;
+  --cream: #ffffff;
 }
 
 * {
@@ -30,6 +30,30 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Unify every non-hero section with the red poster background. */
+main > section:not(.whyus-dark) {
+  background-color: #c8102e;
+}
+main > section.whyus-dark {
+  background-color: #111111;
+}
+footer {
+  background-color: #a60d26;
+}
+
+/* Photograph and red delivery panel retain light text over their dark surfaces. */
+#inicio [class*="text-cream"] { color: #fff; }
+.bg-delivery .text-cream { color: #fff; }
+#contactos .bg-flame-500.text-cream { color: #fff; }
+.bg-delivery .text-cream\/80 { color: rgba(255, 255, 255, .8); }
+.bg-delivery .text-cream\/85 { color: rgba(255, 255, 255, .85); }
+.bg-flame-500.text-cream { color: #fff; }
+
+/* Light cards stand apart from the golden page surfaces. */
+[class*="bg-ink-"][class*="rounded"] { background-color: #fff !important; border-color: rgba(200, 16, 46, .24); }
+[class*="bg-ink-"][class*="rounded"] [class*="text-cream"] { color: #222 !important; }
+[class*="bg-ink-"][class*="rounded"] [class*="text-gold"] { color: #c8102e !important; }
+
 ::selection {
   background: var(--gold);
   color: #120a04;
@@ -39,7 +63,7 @@ body {
   width: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: #070405;
+  background: #a60d26;
 }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #6b4210, #e8a33d 40%, #6b4210);
@@ -49,11 +73,11 @@ body {
 @layer components {
   .btn-redline {
     color: #fff;
-    border: 1.5px solid #e11d1d;
-    background: rgba(225, 29, 29, 0.06);
+    border: 1.5px solid #c8102e;
+    background: rgba(200, 16, 46, 0.08);
   }
   .btn-redline:hover {
-    background: #d4141c;
+    background: #c8102e;
     transform: translateY(-2px);
   }
   .slant {
@@ -78,11 +102,11 @@ body {
   }
 
   .gold-text {
-    color: #ffc61a;
+    color: #f4b400;
   }
 
   .flame-text {
-    color: #ffc61a;
+    color: #c8102e;
   }
 
   .glass {
@@ -100,39 +124,39 @@ body {
     transform: translateY(1px) scale(0.99);
   }
   .btn-gold {
-    color: #150c03;
-    background: #ffc61a;
-    box-shadow: 0 14px 34px -16px rgba(255, 198, 26, 0.6);
+    color: #111;
+    background: #f4b400;
+    box-shadow: 0 14px 34px -16px rgba(244, 180, 0, 0.52);
   }
   .btn-gold:hover {
-    background: #ffd84d;
+    background: #ffd04d;
     transform: translateY(-2px);
   }
   .btn-ghost {
-    color: #f6ece0;
-    border: 1px solid rgba(246, 236, 224, 0.24);
-    background: rgba(255, 255, 255, 0.02);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
   }
   .btn-ghost:hover {
-    border-color: rgba(242, 189, 91, 0.7);
-    color: #ffe9bf;
+    border-color: #f4b400;
+    color: #ffe08a;
     transform: translateY(-2px);
-    box-shadow: 0 18px 44px -22px rgba(242, 189, 91, 0.6);
+    box-shadow: 0 18px 44px -22px rgba(244, 180, 0, 0.3);
   }
   .btn-fire {
-    color: #fff3e6;
-    background-image: linear-gradient(100deg, #7d0f06, #c2200f 45%, #e8391b 100%);
-    box-shadow: 0 18px 46px -18px rgba(194, 32, 15, 0.9), inset 0 1px 0 rgba(255, 200, 160, 0.35);
+    color: #fff;
+    background-image: linear-gradient(100deg, #8f0b22, #c8102e 55%, #df2842 100%);
+    box-shadow: 0 18px 46px -18px rgba(200, 16, 46, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
   }
   .btn-fire:hover {
     transform: translateY(-2px);
-    box-shadow: 0 26px 64px -20px rgba(232, 57, 27, 0.95);
+    box-shadow: 0 26px 64px -20px rgba(200, 16, 46, 0.65);
   }
 
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(232, 163, 61, 0.45), transparent);
+    background: linear-gradient(90deg, transparent, rgba(244, 180, 0, 0.45), transparent);
   }
 }
 
@@ -159,18 +183,25 @@ body {
 
 .coal {
   background:
-    radial-gradient(120% 90% at 50% -10%, rgba(120, 44, 12, 0.42) 0%, transparent 58%),
-    radial-gradient(70% 60% at 12% 18%, rgba(194, 32, 15, 0.16) 0%, transparent 60%),
-    radial-gradient(60% 50% at 92% 78%, rgba(255, 122, 24, 0.13) 0%, transparent 60%),
-    linear-gradient(180deg, #0a0707 0%, #070506 55%, #050305 100%);
+    radial-gradient(100% 80% at 100% 0%, rgba(244, 180, 0, 0.18) 0%, transparent 58%),
+    linear-gradient(180deg, #c8102e 0%, #b10d27 100%);
 }
 
 .coal-2 {
-  background:
-    radial-gradient(90% 70% at 78% 8%, rgba(232, 163, 61, 0.14) 0%, transparent 55%),
-    radial-gradient(80% 90% at 6% 92%, rgba(140, 18, 9, 0.32) 0%, transparent 62%),
-    linear-gradient(200deg, #0d0909 0%, #080506 60%, #0a0606 100%);
+  background: #ffcc00;
 }
+
+#menu.coal-2 { background: #ffcc00; }
+#menu [class*="text-gold"] { color: #a60d26 !important; }
+#menu [class*="text-cream"] { color: #241b00 !important; }
+#menu .btn-gold { color: #fff; background: #c8102e; }
+#menu .btn-gold:hover { background: #a60d26; }
+#menu .btn-ghost { color: #241b00; border-color: rgba(36, 27, 0, .38); background: rgba(255, 255, 255, .45); }
+#menu .btn-ghost:hover { color: #c8102e; border-color: #c8102e; }
+
+.menu-page { background: #ffcc00; color: #241b00; }
+.menu-page [class*="text-cream"] { color: #241b00 !important; }
+.menu-page [class*="text-gold"] { color: #a60d26 !important; }
 
 .brush-underline {
   position: relative;
@@ -182,7 +213,7 @@ body {
   right: -3%;
   bottom: -0.22em;
   height: 0.34em;
-  background: radial-gradient(closest-side, rgba(194, 32, 15, 0.95), rgba(194, 32, 15, 0));
+  background: radial-gradient(closest-side, rgba(200, 16, 46, 0.85), rgba(200, 16, 46, 0));
   filter: blur(2px);
   transform: rotate(-0.6deg);
   z-index: -1;
@@ -406,6 +437,16 @@ body {
   .bg-red-strokes { background-image: url("/images/bg/red-strokes.webp"); }
   .bg-embers { background-image: url("/images/bg/embers.webp"); }
 }
+
+/* Identidade Piri Piri: superfícies limpas, sem fotografias decorativas. */
+.bg-texture, .bg-clean, .bg-red-strokes, .bg-embers {
+  background-image: none !important;
+}
+.bg-delivery {
+  background-image: radial-gradient(90% 130% at 100% 0%, rgba(244,180,0,.16), transparent 58%), linear-gradient(135deg, #c8102e, #7e0b20) !important;
+}
+
+body { background-color: #f4b400; color: #241b00; }
 
 @media (prefers-reduced-motion: reduce) {
   .anim-fade-in,
