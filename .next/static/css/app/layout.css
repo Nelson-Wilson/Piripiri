@@ -1404,6 +1404,9 @@ video {
 .border-cream\/25 {
   border-color: rgb(247 244 239 / 0.25);
 }
+.border-\[\#6b4b4b\]\/60 {
+  border-color: rgb(107 75 75 / 0.6);
+}
 .bg-\[\#7a0b10\] {
   --tw-bg-opacity: 1;
   background-color: rgb(122 11 16 / var(--tw-bg-opacity, 1));

@@ -52,7 +52,7 @@ export default function MenuPage() {
                     <li key={l.name} className="flex items-baseline gap-3">
                       <span className="text-[12.5px] text-cream/75">{tr(lang, l.name)}</span>
                       {l.note && <span className="text-[10px] uppercase tracking-[0.14em] text-cream/30">{tr(lang, l.note)}</span>}
-                      <span className="mx-0.5 h-px flex-1 border-b border-dotted border-cream/15" />
+                      <span className="mx-0.5 h-px flex-1 border-b border-dotted border-[#6b4b4b]/60" />
                       <span className={`shrink-0 font-display text-[12.5px] tracking-wide ${l.price ? "text-gold-300" : "text-cream/25"}`}>
                         {l.price ?? tr(lang, "consultar")}
                       </span>
