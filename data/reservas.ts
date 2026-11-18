@@ -107,11 +107,11 @@ export const zoneConfig = {
 /** Mesas fora de serviço (aparecem a cinzento, "Indisponível"). */
 export const blockedTables: number[] = [];
 
-export const maxPeople = 6;
+export const maxPeople = 30;
 
-/** Horário de reservas (10:00 — 22:00), em intervalos de 30 min. */
+/** Horário de reservas (10:00 — 23:30), em intervalos de 30 min. */
 export const openMinutes = 10 * 60;
-export const closeMinutes = 22 * 60;
+export const closeMinutes = 23 * 60 + 30;
 export const slotStep = 30;
 
 /** Tempo durante o qual uma mesa reservada fica ocupada (min). */

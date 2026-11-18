@@ -59,7 +59,7 @@ export default function Contact() {
         <Reveal className="flex items-center gap-3">
           <span className="hidden text-flame-400 sm:block"><MapPin className="h-7 w-7 fill-flame-500 text-flame-500" /></span>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-flame-400">Contacte-nos</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-400">Contacte-nos</p>
             <h2 className="font-sans text-[20px] font-extrabold leading-tight text-cream">Estamos sempre à sua disposição</h2>
           </div>
         </Reveal>
@@ -85,7 +85,7 @@ export default function Contact() {
           <Dot><Clock className="h-4 w-4" /></Dot>
           <div className="text-[12px] leading-snug">
             <p className="font-semibold text-cream">
-              {openNow === null ? "Horário" : openNow ? <span className="text-green-400">Aberto agora</span> : <span className="text-flame-400">Fechado agora</span>}
+              {openNow === null ? "Horário" : openNow ? <span className="text-gold-400">Aberto agora</span> : <span className="text-gold-400">Fechado agora</span>}
             </p>
             <ul className="mt-1 space-y-px text-[10.5px] text-cream/60">
               {hours.map((h, i) => (

@@ -201,7 +201,7 @@ export default function Reservas() {
     const map: Record<number, Status> = {};
     for (const t of tables) {
       map[t.id] =
-        blockedTables.includes(t.id) || seatsFor(t) < people
+        blockedTables.includes(t.id) || (people <= 6 && seatsFor(t) < people)
           ? "unavailable"
           : reserved.has(t.id)
             ? "reserved"
@@ -417,7 +417,7 @@ export default function Reservas() {
                       >
                         {!time && <option value="">—</option>}
                         {slots.map((s) => (
-                          <option key={s} value={s} disabled={slotDisabled(s)}>
+                        <option key={s} value={s} disabled={slotDisabled(s)}>
                             {s}
                           </option>
                         ))}
@@ -435,6 +435,7 @@ export default function Reservas() {
                         ))}
                       </select>
                     </SelectWrap>
+                    {people > 6 && <p className="mt-1.5 text-[10px] leading-snug text-gold-300">{t.largePartyNote}</p>}
                   </Field>
 
                   <Field id="res-table" label={t.tableLabel} icon={<TableIcon className="h-4 w-4" />} error={errors.table}>
@@ -603,7 +604,7 @@ export default function Reservas() {
               </span>
               <div>
                 <p className="text-[12px] text-cream/90">{t.bookingHours}</p>
-                <p className="font-display text-[22px] leading-tight tracking-wide text-gold-400">10:00 — 22:00</p>
+                <p className="font-display text-[22px] leading-tight tracking-wide text-gold-400">10:00 — 23:30</p>
               </div>
             </li>
             <li className="flex items-center justify-center gap-4 sm:border-x sm:border-cream/15 sm:px-6">

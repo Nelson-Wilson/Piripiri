@@ -34,14 +34,14 @@ export default function About() {
 
       <div className="relative grid items-center gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[1.15fr_1fr] lg:px-10 lg:py-10 xl:pr-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))]">
         <Reveal>
-          <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-flame-400">Sobre nós</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold-400">Sobre nós</p>
           <h2 className="h-display mt-2 text-[10vw] leading-[0.98] text-gold-400 sm:text-[6vw] lg:text-[36px] xl:text-[40px]">
             Uma tradição que
             <br />
             atravessa gerações
           </h2>
           <p className="mt-4 max-w-[430px] text-[13.5px] leading-[1.75] text-cream/80">
-            Há décadas servimos o verdadeiro sabor do frango na brasa e os melhores camarões grelhados de Maputo. O
+            Há meio século servimos o verdadeiro sabor do frango na brasa e os melhores camarões grelhados de Maputo. O
             Restaurante Piri Piri tornou-se uma referência pela qualidade, tradição e atendimento.
           </p>
           <a href="#contactos" className="btn btn-gold mt-5 !px-6 !py-3 !text-[11px]">
