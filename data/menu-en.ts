@@ -243,6 +243,7 @@ export const reservasUi = {
     menuModalKicker: "Reserva de mesa",
     menuClear: "Limpar",
     menuSelected: "Selecionado",
+    back: "Voltar",
   },
   en: {
     title1: "Book your",
@@ -306,6 +307,7 @@ export const reservasUi = {
     menuModalKicker: "Table booking",
     menuClear: "Clear",
     menuSelected: "Selected",
+    back: "Back",
   },
 } as const;
 
