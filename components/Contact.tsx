@@ -52,10 +52,10 @@ export default function Contact() {
   return (
     <section
       id="contactos"
-      className="relative overflow-hidden border-t border-cream/10 bg-ink-900 py-7"
+      className="relative overflow-hidden border-t border-cream/10 bg-ink-900 py-10 md:py-12"
     >
       <div aria-hidden className="absolute inset-0 bg-[#c8102e]/75" />
-      <div className="container-x relative z-10 grid items-center gap-6 lg:grid-cols-[1.15fr_1fr_1fr_1fr_1.1fr]">
+      <div className="container-x relative z-10 grid items-start gap-6 lg:grid-cols-[0.9fr_1fr_1.35fr]">
         <Reveal className="flex items-center gap-3">
           <span className="hidden text-flame-400 sm:block"><MapPin className="h-7 w-7 fill-flame-500 text-flame-500" /></span>
           <div>
@@ -64,58 +64,59 @@ export default function Contact() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.05} className="flex items-center gap-3">
-          <Dot><MapPin className="h-4 w-4" /></Dot>
-          <div className="text-[12px] leading-snug">
-            <p className="font-semibold text-cream">Av. 24 de Julho</p>
-            <p className="text-cream/60">Maputo, Moçambique</p>
-            <p className="text-cream/40">{facts.plusCode}</p>
+        <Reveal delay={0.05} className="grid content-start gap-5">
+          <div className="flex items-start gap-3">
+            <Dot><MapPin className="h-4 w-4" /></Dot>
+            <div className="text-[12px] leading-snug">
+              <p className="font-semibold text-cream">Av. 24 de Julho</p>
+              <p className="text-cream/75">Maputo, Moçambique</p>
+              <p className="text-cream/65">{facts.plusCode}</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <Dot><Phone className="h-4 w-4" /></Dot>
+            <div className="text-[12px] leading-snug">
+              <a href={telHref} className="font-semibold text-cream hover:text-gold-300">84 672 4350</a>
+              <p className="text-cream/75">(Chamadas / WhatsApp)</p>
+            </div>
           </div>
         </Reveal>
 
-        <Reveal delay={0.1} className="flex items-center gap-3">
-          <Dot><Phone className="h-4 w-4" /></Dot>
-          <div className="text-[12px] leading-snug">
-            <a href={telHref} className="font-semibold text-cream hover:text-gold-300">84 672 4350</a>
-            <p className="text-cream/60">(Chamadas / WhatsApp)</p>
-          </div>
+        <Reveal delay={0.15} className="flex items-start gap-3 lg:col-span-2">
+            <Dot><Clock className="h-4 w-4" /></Dot>
+            <div className="min-w-0 flex-1 text-[12px] leading-snug">
+              <p className="font-semibold text-cream">
+                {openNow === null ? "Horário" : openNow ? <span className="text-gold-400">Aberto agora</span> : <span className="text-gold-400">Fechado agora</span>}
+              </p>
+              <ul className="mt-1 grid gap-x-8 gap-y-px text-[10.5px] text-cream/75 sm:grid-cols-2">
+                {hours.map((h, i) => (
+                  <li key={h.day} className={`flex justify-between gap-3 ${i === today ? "font-semibold text-cream" : ""}`}>
+                    <span>{h.day}</span>
+                    <span>{h.time}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
         </Reveal>
 
-        <Reveal delay={0.15} className="flex items-center gap-3">
-          <Dot><Clock className="h-4 w-4" /></Dot>
-          <div className="text-[12px] leading-snug">
-            <p className="font-semibold text-cream">
-              {openNow === null ? "Horário" : openNow ? <span className="text-gold-400">Aberto agora</span> : <span className="text-gold-400">Fechado agora</span>}
-            </p>
-            <ul className="mt-1 space-y-px text-[10.5px] text-cream/60">
-              {hours.map((h, i) => (
-                <li key={h.day} className={`flex justify-between gap-3 ${i === today ? "font-semibold text-cream" : ""}`}>
-                  <span>{h.day}</span>
-                  <span>{h.time}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="group relative h-[112px] overflow-hidden rounded-[10px] border border-cream/15">
-            <iframe
-              title="Mapa — Restaurante Píri Píri, Av. 24 de Julho, Maputo"
-              src={mapSrc}
-              className="absolute inset-0 h-full w-full opacity-75 grayscale-[0.5] contrast-[1.1]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            <a
-              href={mapsHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute bottom-1.5 right-1.5 flex items-center gap-1.5 rounded-full bg-ink-900/90 px-3 py-1.5 text-[9.5px] font-bold uppercase tracking-[0.16em] text-gold-300"
-            >
-              Como chegar <Navigation className="h-3 w-3" />
-            </a>
-          </div>
+        <Reveal delay={0.2} className="lg:col-start-3 lg:row-start-1 lg:row-span-2">
+            <div className="group relative h-[250px] overflow-hidden rounded-[10px] border border-cream/25 lg:h-full lg:min-h-[250px]">
+              <iframe
+                title="Mapa — Restaurante Píri Píri, Av. 24 de Julho, Maputo"
+                src={mapSrc}
+                className="absolute inset-0 h-full w-full opacity-100 contrast-[1.08]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <a
+                href={mapsHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-2 right-2 flex items-center gap-1.5 rounded-full bg-ink-900/95 px-3 py-1.5 text-[9.5px] font-bold uppercase tracking-[0.16em] text-gold-300 shadow-lg"
+              >
+                Como chegar <Navigation className="h-3 w-3" />
+              </a>
+            </div>
         </Reveal>
       </div>
     </section>
